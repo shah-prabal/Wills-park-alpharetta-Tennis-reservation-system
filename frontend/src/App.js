@@ -935,10 +935,13 @@ function App() {
 
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
-            <nav className="flex space-x-8">
+            <nav className="flex space-x-8 border-b">
               <button
-                onClick={() => setActiveTab('overview')}
-                className={`pb-4 border-b-2 font-medium ${
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab('overview');
+                }}
+                className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'overview'
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -947,8 +950,11 @@ function App() {
                 Overview
               </button>
               <button
-                onClick={() => setActiveTab('reservations')}
-                className={`pb-4 border-b-2 font-medium ${
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab('reservations');
+                }}
+                className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'reservations'
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -957,14 +963,30 @@ function App() {
                 All Reservations
               </button>
               <button
-                onClick={() => setActiveTab('users')}
-                className={`pb-4 border-b-2 font-medium ${
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab('users');
+                }}
+                className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'users'
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700'
                 }`}
               >
                 Users
+              </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab('analytics');
+                }}
+                className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
+                  activeTab === 'analytics'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Analytics & Reports
               </button>
             </nav>
           </div>
