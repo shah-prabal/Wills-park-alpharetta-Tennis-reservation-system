@@ -13,8 +13,8 @@ import bcrypt
 
 # Environment variables
 MONGO_URL = os.environ.get('MONGO_URL', 'mongodb://localhost:27017/')
-STRIPE_SECRET_KEY = "sk_test_51Re2MCPILVO0kCRVCZo2vXLPsBH49CZIo255tgBO1e5cFT7PgMe8xpRSepNYdeK5YI4YfHb8xHVR6TDQwFj6evTF002dP4RmSS"
-STRIPE_WEBHOOK_SECRET = "whsec_SjyfoNTUa8vIjQLMx2x5CJBx1lX0foLQ"
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', "sk_test_51Re2MCPILVO0kCRVCZo2vXLPsBH49CZIo255tgBO1e5cFT7PgMe8xpRSepNYdeK5YI4YfHb8xHVR6TDQwFj6evTF002dP4RmSS")
+STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', "whsec_SjyfoNTUa8vIjQLMx2x5CJBx1lX0foLQ")
 JWT_SECRET = "alpharetta_tennis_secret_key_2025"
 
 # Initialize Stripe
