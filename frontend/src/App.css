@@ -294,7 +294,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Professional contact section */
 .contact-card {
-  @apply bg-white rounded-2xl shadow-professional p-6 hover:shadow-professional-lg transition-all duration-300 transform hover:-translate-y-1;
+  @apply bg-white rounded-2xl shadow-professional p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1;
 }
 
 /* Time slot improvements */
