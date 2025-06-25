@@ -297,7 +297,7 @@ function App() {
 
   // User Dashboard Component
   const UserDashboard = () => {
-    const [activeTab, setActiveTab] = useState('book');
+    const [activeTab, setActiveTab] = useState('home');
     const [bookingForm, setBookingForm] = useState({
       courtId: '',
       date: selectedDate,
@@ -312,8 +312,10 @@ function App() {
     }, []);
 
     useEffect(() => {
-      fetchCourtAvailability(bookingForm.date);
-    }, [bookingForm.date]);
+      if (activeTab === 'book') {
+        fetchCourtAvailability(bookingForm.date);
+      }
+    }, [bookingForm.date, activeTab]);
 
     const handleBooking = (e) => {
       e.preventDefault();
