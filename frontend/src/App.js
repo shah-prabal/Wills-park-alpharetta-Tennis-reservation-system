@@ -804,19 +804,19 @@ function App() {
           )}
 
           {activeTab === 'book' && (
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold mb-6">Book a Court</h2>
+            <div className="card fade-in-up">
+              <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Book a Court</h2>
               
-              <form onSubmit={handleBooking} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <form onSubmit={handleBooking} className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Court
+                    <label className="form-label text-lg">
+                      Court Selection
                     </label>
                     <select
                       value={bookingForm.courtId}
                       onChange={(e) => setBookingForm({...bookingForm, courtId: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                      className="form-input text-lg"
                       required
                     >
                       <option value="">Select a court</option>
@@ -829,46 +829,46 @@ function App() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="form-label text-lg">
                       Date
                     </label>
                     <input
                       type="date"
                       value={bookingForm.date}
                       onChange={(e) => setBookingForm({...bookingForm, date: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                      className="form-input text-lg"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="form-label text-lg">
                       Start Time
                     </label>
                     <input
                       type="time"
                       value={bookingForm.startTime}
                       onChange={(e) => setBookingForm({...bookingForm, startTime: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                      className="form-input text-lg"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="form-label text-lg">
                       End Time
                     </label>
                     <input
                       type="time"
                       value={bookingForm.endTime}
                       onChange={(e) => setBookingForm({...bookingForm, endTime: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                      className="form-input text-lg"
                       required
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <div className="md:col-span-2">
+                    <label className="form-label text-lg">
                       Number of Attendees
                     </label>
                     <input
@@ -877,44 +877,62 @@ function App() {
                       max="20"
                       value={bookingForm.attendees}
                       onChange={(e) => setBookingForm({...bookingForm, attendees: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                      className="form-input text-lg max-w-xs"
                       required
                     />
                   </div>
                 </div>
 
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-blue-900 mb-2">Pricing Information</h3>
-                  <p className="text-blue-800 text-sm mb-2">
-                    <strong>Your Status:</strong> {user?.is_resident ? 'Resident' : 'Non-Resident'}
-                    {user?.is_alta_member && ' (ALTA Member)'}
-                    {user?.is_usta_member && ' (USTA Member)'}
-                  </p>
-                  <p className="text-blue-800 text-sm mb-2">
-                    <strong>Rate:</strong> ${user?.is_resident || user?.is_alta_member || user?.is_usta_member ? '4' : '6'} per hour
-                  </p>
-                  <p className="text-blue-800 text-sm font-semibold">
-                    <strong>Estimated Cost:</strong> ${calculatePrice()}
-                  </p>
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl p-8 shadow-md">
+                  <h3 className="font-bold text-blue-900 mb-4 text-xl">💰 Pricing Information</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <p className="text-blue-800 mb-2">
+                        <strong>Your Status:</strong> {user?.is_resident ? 'Resident' : 'Non-Resident'}
+                        {user?.is_alta_member && ' (ALTA Member)'}
+                        {user?.is_usta_member && ' (USTA Member)'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-blue-800 mb-2">
+                        <strong>Rate:</strong> ${user?.is_resident || user?.is_alta_member || user?.is_usta_member ? '4' : '6'} per hour
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-blue-800 font-bold text-xl">
+                        <strong>Total Cost:</strong> ${calculatePrice()}
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="bg-yellow-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-yellow-900 mb-2">Booking Rules</h3>
-                  <ul className="text-yellow-800 text-sm space-y-1">
-                    <li>• Minimum reservation: 2 hours</li>
-                    <li>• Maximum attendees: 20 per court</li>
-                    <li>• Residents: 7 days advance booking</li>
-                    <li>• Non-residents: 5 days advance booking</li>
-                    <li>• Courts available: 7:00 AM - 10:00 PM</li>
-                  </ul>
+                <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-200 rounded-2xl p-8 shadow-md">
+                  <h3 className="font-bold text-yellow-900 mb-4 text-xl">📋 Booking Rules</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <ul className="text-yellow-800 space-y-2">
+                      <li className="flex items-center"><span className="text-yellow-600 mr-2">•</span>Minimum reservation: 2 hours</li>
+                      <li className="flex items-center"><span className="text-yellow-600 mr-2">•</span>Maximum attendees: 20 per court</li>
+                    </ul>
+                    <ul className="text-yellow-800 space-y-2">
+                      <li className="flex items-center"><span className="text-yellow-600 mr-2">•</span>Residents: 7 days advance booking</li>
+                      <li className="flex items-center"><span className="text-yellow-600 mr-2">•</span>Non-residents: 5 days advance booking</li>
+                    </ul>
+                  </div>
                 </div>
 
                 <button
                   type="submit"
-                  disabled={loading}
-                  className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 disabled:opacity-50 font-semibold"
+                  disabled={loading || !calculatePrice()}
+                  className="btn-primary w-full text-xl py-4 btn-hover-effect"
                 >
-                  {loading ? 'Processing...' : `Book Court - $${calculatePrice()}`}
+                  {loading ? (
+                    <div className="flex items-center justify-center">
+                      <div className="spinner mr-3"></div>
+                      Processing...
+                    </div>
+                  ) : (
+                    `Book Court - $${calculatePrice()}`
+                  )}
                 </button>
               </form>
             </div>
