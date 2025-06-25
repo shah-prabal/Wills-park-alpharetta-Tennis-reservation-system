@@ -196,98 +196,117 @@ function App() {
     const [password, setPassword] = useState('');
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
         <div className="container mx-auto px-4 py-12">
-          <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg p-8">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <div className="max-w-lg mx-auto">
+            {/* Logo/Header Section */}
+            <div className="text-center mb-10">
+              <div className="feature-icon feature-icon-blue mx-auto mb-6" style={{width: '5rem', height: '5rem'}}>
+                <span className="text-4xl">🎾</span>
+              </div>
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
                 Wills Park Tennis Courts
               </h1>
-              <p className="text-gray-600">City of Alpharetta</p>
+              <p className="text-xl text-gray-600">City of Alpharetta</p>
+              <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-green-500 mx-auto mt-4 rounded-full"></div>
             </div>
 
-            {error && (
-              <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-red-600 text-sm">{error}</p>
-              </div>
-            )}
+            <div className="card shadow-professional-lg">
+              {error && (
+                <div className="alert alert-error">
+                  <p className="font-semibold">{error}</p>
+                </div>
+              )}
 
-            {success && (
-              <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-green-600 text-sm">{success}</p>
-              </div>
-            )}
+              {success && (
+                <div className="alert alert-success">
+                  <p className="font-semibold">{success}</p>
+                </div>
+              )}
 
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              handleLogin(username, password);
-            }}>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Username
-                </label>
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                  required
-                />
-              </div>
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                handleLogin(username, password);
+              }}>
+                <div className="mb-6">
+                  <label className="form-label text-lg">
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="form-input text-lg"
+                    placeholder="Enter your username"
+                    required
+                  />
+                </div>
 
-              <div className="mb-6">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                  required
-                />
-              </div>
+                <div className="mb-8">
+                  <label className="form-label text-lg">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="form-input text-lg"
+                    placeholder="Enter your password"
+                    required
+                  />
+                </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 font-semibold"
-              >
-                {loading ? 'Signing In...' : 'Sign In'}
-              </button>
-            </form>
-
-            <div className="mt-6 text-center">
-              <p className="text-sm text-gray-600 mb-2">
-                Don't have an account?{' '}
-                <a 
-                  href="https://anc.apm.activecommunities.com/alpharetta/createaccount?onlineSiteId=0"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  Sign up here
-                </a>
-              </p>
-              <p className="text-sm text-gray-600">
-                Staff member?{' '}
                 <button
-                  onClick={() => setCurrentPage('staff-login')}
-                  className="text-blue-600 hover:underline"
+                  type="submit"
+                  disabled={loading}
+                  className="btn-primary w-full text-xl py-4 btn-hover-effect"
                 >
-                  Log in here
+                  {loading ? (
+                    <div className="flex items-center justify-center">
+                      <div className="spinner mr-3"></div>
+                      Signing In...
+                    </div>
+                  ) : (
+                    'Sign In'
+                  )}
                 </button>
-              </p>
-            </div>
+              </form>
 
-            <div className="mt-8 p-4 bg-gray-50 rounded-lg">
-              <h3 className="font-semibold text-gray-800 mb-2">Demo Account:</h3>
-              <p className="text-sm text-gray-600">
-                <strong>Member Demo:</strong> membermock / trial123
-              </p>
-              <p className="text-xs text-gray-500 mt-2">
-                For staff access, please contact your system administrator.
-              </p>
+              <div className="mt-8 text-center space-y-4">
+                <p className="text-gray-600">
+                  Don't have an account?{' '}
+                  <a 
+                    href="https://anc.apm.activecommunities.com/alpharetta/createaccount?onlineSiteId=0"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800 font-semibold transition-colors"
+                  >
+                    Sign up here
+                  </a>
+                </p>
+                <div className="w-full h-px bg-gray-200"></div>
+                <p className="text-gray-600">
+                  Staff member?{' '}
+                  <button
+                    onClick={() => setCurrentPage('staff-login')}
+                    className="text-blue-600 hover:text-blue-800 font-semibold transition-colors"
+                  >
+                    Log in here
+                  </button>
+                </p>
+              </div>
+
+              <div className="mt-8 p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                <h3 className="font-bold text-gray-800 mb-4 text-center">Demo Account:</h3>
+                <div className="bg-white rounded-lg p-4 border border-gray-300">
+                  <p className="text-gray-600 mb-2">
+                    <strong>Member Demo:</strong> membermock / trial123
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    For staff access, please contact your system administrator.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
