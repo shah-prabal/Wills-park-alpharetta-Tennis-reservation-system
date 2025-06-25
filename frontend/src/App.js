@@ -436,32 +436,34 @@ function App() {
           </div>
 
           {activeTab === 'home' && (
-            <div className="space-y-8">
-              {/* Hero Section */}
-              <div className="bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-xl p-8">
+            <div className="space-y-8 fade-in-up">
+              {/* Hero Section with Professional Background */}
+              <div className="hero-section text-white rounded-2xl p-12 shadow-professional-lg">
                 <div className="max-w-4xl">
-                  <h1 className="text-3xl md:text-4xl font-bold mb-4">
+                  <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
                     Welcome to Wills Park Tennis Courts
                   </h1>
-                  <p className="text-xl mb-6 opacity-90">
-                    Your premier tennis destination in the heart of Alpharetta. Book courts, check availability, and manage your reservations with ease.
+                  <p className="text-xl mb-8 opacity-95 leading-relaxed">
+                    Experience premier tennis facilities in the heart of Alpharetta. Our state-of-the-art courts offer the perfect venue for players of all skill levels.
                   </p>
                   <div className="flex flex-wrap gap-4">
                     <button
                       onClick={(e) => {
                         e.preventDefault();
+                        e.stopPropagation();
                         setActiveTab('book');
                       }}
-                      className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                      className="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 btn-hover-effect"
                     >
                       Book a Court Now
                     </button>
                     <button
                       onClick={(e) => {
                         e.preventDefault();
+                        e.stopPropagation();
                         setActiveTab('availability');
                       }}
-                      className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors"
+                      className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                     >
                       Check Availability
                     </button>
@@ -469,121 +471,152 @@ function App() {
                 </div>
               </div>
 
-              {/* Quick Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white rounded-xl shadow-lg p-6 text-center">
-                  <div className="text-3xl font-bold text-blue-600 mb-2">4</div>
-                  <div className="text-gray-600">Available Courts</div>
-                  <div className="text-sm text-gray-500 mt-2">Courts 1-4 ready for play</div>
+              {/* Quick Stats with Professional Design */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="card card-hover text-center">
+                  <div className="feature-icon feature-icon-blue mx-auto mb-4">
+                    <span className="text-3xl">🎾</span>
+                  </div>
+                  <div className="text-4xl font-bold text-blue-600 mb-3">4</div>
+                  <div className="text-gray-800 font-semibold text-lg mb-2">Available Courts</div>
+                  <div className="text-gray-600">Courts 1-4 ready for professional play</div>
                 </div>
-                <div className="bg-white rounded-xl shadow-lg p-6 text-center">
-                  <div className="text-3xl font-bold text-green-600 mb-2">
+                <div className="card card-hover text-center">
+                  <div className="feature-icon feature-icon-green mx-auto mb-4">
+                    <span className="text-3xl">💰</span>
+                  </div>
+                  <div className="text-4xl font-bold text-green-600 mb-3">
                     ${user?.is_resident || user?.is_alta_member || user?.is_usta_member ? '4' : '6'}
                   </div>
-                  <div className="text-gray-600">Your Hourly Rate</div>
-                  <div className="text-sm text-gray-500 mt-2">
-                    {user?.is_resident ? 'Resident rate' : 'Non-resident rate'}
+                  <div className="text-gray-800 font-semibold text-lg mb-2">Your Hourly Rate</div>
+                  <div className="text-gray-600">
+                    {user?.is_resident ? 'Resident pricing' : 'Non-resident pricing'}
                   </div>
                 </div>
-                <div className="bg-white rounded-xl shadow-lg p-6 text-center">
-                  <div className="text-3xl font-bold text-purple-600 mb-2">7AM-10PM</div>
-                  <div className="text-gray-600">Operating Hours</div>
-                  <div className="text-sm text-gray-500 mt-2">Daily availability</div>
-                </div>
-              </div>
-
-              {/* Court Features */}
-              <div className="bg-white rounded-xl shadow-lg p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Court Features</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <div className="text-center">
-                    <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span className="text-2xl">🎾</span>
-                    </div>
-                    <h3 className="font-semibold text-gray-900 mb-2">Professional Courts</h3>
-                    <p className="text-gray-600 text-sm">High-quality surfaces for optimal play</p>
+                <div className="card card-hover text-center">
+                  <div className="feature-icon feature-icon-yellow mx-auto mb-4">
+                    <span className="text-3xl">⏰</span>
                   </div>
-                  <div className="text-center">
-                    <div className="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span className="text-2xl">💡</span>
-                    </div>
-                    <h3 className="font-semibold text-gray-900 mb-2">LED Lighting</h3>
-                    <p className="text-gray-600 text-sm">Play day or night with excellent visibility</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span className="text-2xl">🏐</span>
-                    </div>
-                    <h3 className="font-semibold text-gray-900 mb-2">Pickleball Ready</h3>
-                    <p className="text-gray-600 text-sm">All courts lined for pickleball play</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span className="text-2xl">🅿️</span>
-                    </div>
-                    <h3 className="font-semibold text-gray-900 mb-2">Free Parking</h3>
-                    <p className="text-gray-600 text-sm">Convenient parking available</p>
-                  </div>
+                  <div className="text-4xl font-bold text-purple-600 mb-3">7AM-10PM</div>
+                  <div className="text-gray-800 font-semibold text-lg mb-2">Operating Hours</div>
+                  <div className="text-gray-600">Daily court availability</div>
                 </div>
               </div>
 
-              {/* Quick Actions */}
-              <div className="bg-white rounded-xl shadow-lg p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Quick Actions</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Court Features with Background Image */}
+              <div className="card" style={{
+                backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('https://images.unsplash.com/photo-1710782914858-9324a4c09c4a?auto=format&fit=crop&w=1200&q=80')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}>
+                <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">World-Class Court Features</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                  <div className="text-center slide-in-left">
+                    <div className="feature-icon feature-icon-blue mx-auto mb-6">
+                      <span className="text-3xl">🏆</span>
+                    </div>
+                    <h3 className="font-bold text-gray-900 mb-3 text-lg">Professional Courts</h3>
+                    <p className="text-gray-700 leading-relaxed">Championship-quality surfaces designed for optimal performance and player safety</p>
+                  </div>
+                  <div className="text-center slide-in-left">
+                    <div className="feature-icon feature-icon-yellow mx-auto mb-6">
+                      <span className="text-3xl">💡</span>
+                    </div>
+                    <h3 className="font-bold text-gray-900 mb-3 text-lg">LED Lighting</h3>
+                    <p className="text-gray-700 leading-relaxed">State-of-the-art LED lighting system for perfect visibility during evening play</p>
+                  </div>
+                  <div className="text-center slide-in-left">
+                    <div className="feature-icon feature-icon-green mx-auto mb-6">
+                      <span className="text-3xl">🏐</span>
+                    </div>
+                    <h3 className="font-bold text-gray-900 mb-3 text-lg">Pickleball Ready</h3>
+                    <p className="text-gray-700 leading-relaxed">Multi-sport courts with professional pickleball lines for versatile play options</p>
+                  </div>
+                  <div className="text-center slide-in-left">
+                    <div className="feature-icon feature-icon-red mx-auto mb-6">
+                      <span className="text-3xl">🅿️</span>
+                    </div>
+                    <h3 className="font-bold text-gray-900 mb-3 text-lg">Free Parking</h3>
+                    <p className="text-gray-700 leading-relaxed">Ample complimentary parking spaces available for all court users</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Actions with Better Design */}
+              <div className="card">
+                <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Quick Actions</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <button
                     onClick={(e) => {
                       e.preventDefault();
+                      e.stopPropagation();
                       setActiveTab('reservations');
                     }}
-                    className="flex items-center p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all"
+                    className="contact-card flex items-center p-6 border-2 border-gray-200 rounded-2xl hover:border-blue-300 hover:bg-blue-50 transition-all duration-300"
                   >
-                    <div className="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
-                      <span className="text-xl">📅</span>
+                    <div className="feature-icon feature-icon-blue mr-6">
+                      <span className="text-2xl">📅</span>
                     </div>
                     <div className="text-left">
-                      <h3 className="font-semibold text-gray-900">View My Reservations</h3>
-                      <p className="text-gray-600 text-sm">Check your upcoming bookings</p>
+                      <h3 className="font-bold text-gray-900 text-lg mb-2">View My Reservations</h3>
+                      <p className="text-gray-600">Check your upcoming bookings and manage your schedule</p>
                     </div>
                   </button>
                   <button
                     onClick={(e) => {
                       e.preventDefault();
+                      e.stopPropagation();
                       setActiveTab('contact');
                     }}
-                    className="flex items-center p-4 border border-gray-200 rounded-lg hover:border-green-300 hover:bg-green-50 transition-all"
+                    className="contact-card flex items-center p-6 border-2 border-gray-200 rounded-2xl hover:border-green-300 hover:bg-green-50 transition-all duration-300"
                   >
-                    <div className="bg-green-100 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
-                      <span className="text-xl">📞</span>
+                    <div className="feature-icon feature-icon-green mr-6">
+                      <span className="text-2xl">📞</span>
                     </div>
                     <div className="text-left">
-                      <h3 className="font-semibold text-gray-900">Contact Us</h3>
-                      <p className="text-gray-600 text-sm">Get help or ask questions</p>
+                      <h3 className="font-bold text-gray-900 text-lg mb-2">Contact Us</h3>
+                      <p className="text-gray-600">Get assistance or ask questions about our facilities</p>
                     </div>
                   </button>
                 </div>
               </div>
 
-              {/* Rules & Policies */}
-              <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-8">
-                <h2 className="text-2xl font-bold text-yellow-900 mb-6">Important Booking Information</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h3 className="font-semibold text-yellow-900 mb-3">Booking Rules</h3>
-                    <ul className="text-yellow-800 text-sm space-y-2">
-                      <li>• Minimum reservation: 2 hours</li>
-                      <li>• Maximum attendees: 20 per court</li>
-                      <li>• Residents: Book up to 7 days in advance</li>
-                      <li>• Non-residents: Book up to 5 days in advance</li>
+              {/* Aerial View Section */}
+              <div className="rounded-2xl overflow-hidden shadow-professional-lg">
+                <img 
+                  src="https://images.pexels.com/photos/8783173/pexels-photo-8783173.jpeg?auto=compress&cs=tinysrgb&w=1200" 
+                  alt="Wills Park Tennis Courts Aerial View"
+                  className="w-full h-64 md:h-80 object-cover"
+                />
+                <div className="bg-white p-8">
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4">Wills Park Tennis Complex</h2>
+                  <p className="text-gray-700 text-lg leading-relaxed">
+                    Our premium tennis facility features four professional courts designed to meet the highest standards. 
+                    Located in the beautiful Wills Park, we offer an unparalleled tennis experience in Alpharetta.
+                  </p>
+                </div>
+              </div>
+
+              {/* Rules & Policies with Better Design */}
+              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-200 rounded-2xl p-8 shadow-professional">
+                <h2 className="text-3xl font-bold text-yellow-900 mb-8 text-center">Important Booking Information</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="bg-white rounded-xl p-6 shadow-md">
+                    <h3 className="font-bold text-yellow-900 mb-4 text-xl">📋 Booking Rules</h3>
+                    <ul className="text-gray-700 space-y-3">
+                      <li className="flex items-center"><span className="text-yellow-600 mr-2">•</span>Minimum reservation: 2 hours</li>
+                      <li className="flex items-center"><span className="text-yellow-600 mr-2">•</span>Maximum attendees: 20 per court</li>
+                      <li className="flex items-center"><span className="text-yellow-600 mr-2">•</span>Residents: Book up to 7 days in advance</li>
+                      <li className="flex items-center"><span className="text-yellow-600 mr-2">•</span>Non-residents: Book up to 5 days in advance</li>
                     </ul>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-yellow-900 mb-3">Pricing</h3>
-                    <ul className="text-yellow-800 text-sm space-y-2">
-                      <li>• Residents/ALTA/USTA: $4 per hour</li>
-                      <li>• Non-residents: $6 per hour</li>
-                      <li>• Payment required at booking</li>
-                      <li>• Cancellation policy applies</li>
+                  <div className="bg-white rounded-xl p-6 shadow-md">
+                    <h3 className="font-bold text-yellow-900 mb-4 text-xl">💳 Pricing</h3>
+                    <ul className="text-gray-700 space-y-3">
+                      <li className="flex items-center"><span className="text-yellow-600 mr-2">•</span>Residents/ALTA/USTA: $4 per hour</li>
+                      <li className="flex items-center"><span className="text-yellow-600 mr-2">•</span>Non-residents: $6 per hour</li>
+                      <li className="flex items-center"><span className="text-yellow-600 mr-2">•</span>Secure payment required at booking</li>
+                      <li className="flex items-center"><span className="text-yellow-600 mr-2">•</span>Flexible cancellation policy available</li>
                     </ul>
                   </div>
                 </div>
