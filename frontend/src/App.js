@@ -1119,6 +1119,72 @@ function App() {
               </div>
             </div>
           )}
+
+          {activeTab === 'analytics' && (
+            <div className="space-y-6">
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h2 className="text-xl font-bold mb-6">Financial Reports</h2>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                  <div className="bg-green-50 rounded-lg p-4">
+                    <h3 className="font-semibold text-green-900 mb-2">Total Revenue</h3>
+                    <p className="text-2xl font-bold text-green-700">${analytics.total_revenue || 0}</p>
+                    <p className="text-sm text-green-600">All confirmed bookings</p>
+                  </div>
+                  <div className="bg-blue-50 rounded-lg p-4">
+                    <h3 className="font-semibold text-blue-900 mb-2">Average Booking Value</h3>
+                    <p className="text-2xl font-bold text-blue-700">
+                      ${analytics.confirmed_reservations > 0 ? 
+                        ((analytics.total_revenue || 0) / analytics.confirmed_reservations).toFixed(2) : 
+                        '0.00'}
+                    </p>
+                    <p className="text-sm text-blue-600">Per reservation</p>
+                  </div>
+                  <div className="bg-purple-50 rounded-lg p-4">
+                    <h3 className="font-semibold text-purple-900 mb-2">Conversion Rate</h3>
+                    <p className="text-2xl font-bold text-purple-700">
+                      {analytics.total_reservations > 0 ? 
+                        Math.round((analytics.confirmed_reservations / analytics.total_reservations) * 100) : 
+                        0}%
+                    </p>
+                    <p className="text-sm text-purple-600">Confirmed vs total</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="border rounded-lg p-4">
+                    <h3 className="font-semibold text-gray-900 mb-4">Export Options</h3>
+                    <div className="space-y-2">
+                      <button className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                        📊 Export Monthly Revenue Report
+                      </button>
+                      <button className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                        📈 Export Usage Analytics
+                      </button>
+                      <button className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                        👥 Export User Activity Report
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div className="border rounded-lg p-4">
+                    <h3 className="font-semibold text-gray-900 mb-4">Quick Actions</h3>
+                    <div className="space-y-2">
+                      <button className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                        📢 Send System Notification
+                      </button>
+                      <button className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                        🔧 Schedule Maintenance Block
+                      </button>
+                      <button className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                        📋 Generate Court Usage Report
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
