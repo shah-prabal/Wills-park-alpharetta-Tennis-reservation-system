@@ -1,262 +1,320 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
-/* Custom styles for the tennis court reservation system */
-
+/* Professional fonts */
 :root {
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Playfair Display', serif;
   --alpharetta-blue: #1e40af;
   --alpharetta-green: #059669;
-  --alpharetta-light-blue: #dbeafe;
-  --alpharetta-light-green: #d1fae5;
+  --alpharetta-navy: #1e3a8a;
+  --alpharetta-gold: #f59e0b;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f8fafc;
+  line-height: 1.6;
 }
 
-/* Professional button styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+/* Professional button styles with hover effects */
 .btn-primary {
-  @apply bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 font-semibold transition-colors duration-200;
+  @apply bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-6 rounded-lg hover:from-blue-700 hover:to-blue-800 disabled:opacity-50 font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
 }
 
 .btn-secondary {
-  @apply bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 font-semibold transition-colors duration-200;
-}
-
-.btn-danger {
-  @apply bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 font-semibold transition-colors duration-200;
+  @apply bg-white text-gray-800 py-3 px-6 rounded-lg hover:bg-gray-50 font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 border border-gray-200;
 }
 
 .btn-success {
-  @apply bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 font-semibold transition-colors duration-200;
+  @apply bg-gradient-to-r from-green-600 to-green-700 text-white py-3 px-6 rounded-lg hover:from-green-700 hover:to-green-800 font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
 }
 
-/* Card styles */
+/* Professional card styles */
 .card {
-  @apply bg-white rounded-xl shadow-lg p-6 border border-gray-100;
+  @apply bg-white rounded-2xl shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-all duration-300;
 }
 
-.card-header {
-  @apply border-b border-gray-200 pb-4 mb-6;
+.card-hover {
+  @apply transform hover:-translate-y-1 transition-all duration-300;
 }
 
-/* Form styles */
-.form-input {
-  @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200;
+/* Hero section with background image */
+.hero-section {
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.9) 0%, rgba(5, 150, 105, 0.9) 100%),
+              url('https://images.unsplash.com/photo-1603246157521-29132f3c3513?auto=format&fit=crop&w=2000&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
-.form-label {
-  @apply block text-sm font-medium text-gray-700 mb-2;
-}
-
-.form-group {
-  @apply mb-4;
-}
-
-/* Navigation styles */
+/* Navigation improvements */
 .nav-tab {
-  @apply pb-4 border-b-2 font-medium transition-colors duration-200 cursor-pointer;
+  @apply pb-4 border-b-2 font-medium transition-all duration-300 cursor-pointer relative;
+}
+
+.nav-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #1e40af, #059669);
+  transition: width 0.3s ease;
+}
+
+.nav-tab:hover::after {
+  width: 100%;
 }
 
 .nav-tab-active {
   @apply border-blue-500 text-blue-600;
 }
 
+.nav-tab-active::after {
+  width: 100%;
+}
+
 .nav-tab-inactive {
   @apply border-transparent text-gray-500 hover:text-gray-700;
 }
 
-/* Status badges */
+/* Professional form styles */
+.form-input {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 bg-white shadow-sm;
+}
+
+.form-input:focus {
+  @apply shadow-md;
+}
+
+.form-label {
+  @apply block text-sm font-semibold text-gray-700 mb-2;
+}
+
+/* Status badges with better styling */
 .status-badge {
-  @apply px-3 py-1 rounded-full text-sm font-medium;
+  @apply px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide;
 }
 
 .status-confirmed {
-  @apply bg-green-100 text-green-800;
+  @apply bg-gradient-to-r from-green-100 to-green-200 text-green-800 border border-green-300;
 }
 
 .status-pending {
-  @apply bg-yellow-100 text-yellow-800;
+  @apply bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 border border-yellow-300;
 }
 
 .status-cancelled {
-  @apply bg-red-100 text-red-800;
+  @apply bg-gradient-to-r from-red-100 to-red-200 text-red-800 border border-red-300;
 }
 
-/* Court availability styles */
-.court-available {
-  @apply bg-green-100 border-green-200 text-green-800;
-}
-
-.court-reserved {
-  @apply bg-red-100 border-red-200 text-red-800;
-}
-
-.court-maintenance {
-  @apply bg-gray-100 border-gray-200 text-gray-800;
-}
-
-/* Alert styles */
+/* Professional alert styles */
 .alert {
-  @apply p-4 rounded-lg border mb-4;
+  @apply p-4 rounded-xl border-l-4 mb-4 shadow-sm;
 }
 
 .alert-success {
-  @apply bg-green-50 border-green-200 text-green-700;
+  @apply bg-green-50 border-green-400 text-green-800;
 }
 
 .alert-error {
-  @apply bg-red-50 border-red-200 text-red-700;
+  @apply bg-red-50 border-red-400 text-red-800;
 }
 
 .alert-warning {
-  @apply bg-yellow-50 border-yellow-200 text-yellow-700;
+  @apply bg-yellow-50 border-yellow-400 text-yellow-800;
 }
 
 .alert-info {
-  @apply bg-blue-50 border-blue-200 text-blue-700;
+  @apply bg-blue-50 border-blue-400 text-blue-800;
 }
 
-/* Table styles */
+/* Table improvements */
 .table {
-  @apply w-full border-collapse;
+  @apply w-full border-collapse bg-white rounded-xl overflow-hidden shadow-lg;
 }
 
 .table th {
-  @apply bg-gray-50 px-4 py-3 text-left text-sm font-medium text-gray-700 border-b border-gray-200;
+  @apply bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 text-left text-sm font-bold text-gray-700 border-b border-gray-200 uppercase tracking-wide;
 }
 
 .table td {
-  @apply px-4 py-3 border-b border-gray-200;
+  @apply px-6 py-4 border-b border-gray-100;
 }
 
 .table tr:hover {
   @apply bg-gray-50;
 }
 
-/* Loading spinner */
+/* Professional gradient backgrounds */
+.gradient-blue {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.gradient-green {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.gradient-gold {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+/* Court feature icons */
+.feature-icon {
+  @apply w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl shadow-lg;
+}
+
+.feature-icon-blue {
+  @apply bg-gradient-to-br from-blue-400 to-blue-600 text-white;
+}
+
+.feature-icon-yellow {
+  @apply bg-gradient-to-br from-yellow-400 to-yellow-600 text-white;
+}
+
+.feature-icon-green {
+  @apply bg-gradient-to-br from-green-400 to-green-600 text-white;
+}
+
+.feature-icon-red {
+  @apply bg-gradient-to-br from-red-400 to-red-600 text-white;
+}
+
+/* Professional loading spinner */
 .spinner {
   @apply animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600;
 }
 
-/* Responsive utilities */
-@media (max-width: 768px) {
-  .mobile-hidden {
-    display: none;
-  }
-  
-  .mobile-full {
-    width: 100% !important;
-  }
-  
-  .mobile-stack {
-    flex-direction: column !important;
-  }
-  
-  .mobile-p-2 {
-    padding: 0.5rem !important;
-  }
-  
-  .mobile-text-sm {
-    font-size: 0.875rem !important;
-  }
-}
-
-/* Court grid styles */
+/* Court grid improvements */
 .court-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
-@media (max-width: 640px) {
-  .court-grid {
-    grid-template-columns: 1fr;
+/* Professional shadows */
+.shadow-professional {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-professional-lg {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .hero-section {
+    background-attachment: scroll;
+  }
+  
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .nav-tab {
+    font-size: 0.875rem;
+    padding: 0.5rem 0;
+  }
+  
+  .card {
+    padding: 1.5rem;
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
   }
 }
 
-/* Professional header styles */
-.header-gradient {
-  background: linear-gradient(135deg, var(--alpharetta-blue) 0%, var(--alpharetta-green) 100%);
+/* Animation improvements */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Pricing display styles */
-.pricing-info {
-  @apply bg-blue-50 border border-blue-200 rounded-lg p-4;
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
 }
 
-.pricing-info h3 {
-  @apply text-blue-900 font-semibold mb-2;
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.pricing-info p {
-  @apply text-blue-800 text-sm;
+.slide-in-left {
+  animation: slideInLeft 0.6s ease-out;
 }
 
-/* Rules display styles */
-.rules-info {
-  @apply bg-yellow-50 border border-yellow-200 rounded-lg p-4;
+/* Professional button hover effects */
+.btn-hover-effect {
+  position: relative;
+  overflow: hidden;
 }
 
-.rules-info h3 {
-  @apply text-yellow-900 font-semibold mb-2;
+.btn-hover-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
 }
 
-.rules-info ul {
-  @apply text-yellow-800 text-sm space-y-1;
+.btn-hover-effect:hover::before {
+  left: 100%;
 }
 
-/* Dashboard card animations */
-.dashboard-card {
-  @apply transform transition-transform duration-200 hover:scale-105;
+/* Professional contact section */
+.contact-card {
+  @apply bg-white rounded-2xl shadow-professional p-6 hover:shadow-professional-lg transition-all duration-300 transform hover:-translate-y-1;
 }
 
-/* Time slot styles */
+/* Time slot improvements */
 .time-slot {
-  @apply p-2 rounded text-sm text-center border cursor-pointer transition-colors duration-200;
+  @apply p-3 rounded-xl text-sm text-center border cursor-pointer transition-all duration-300 font-medium;
 }
 
 .time-slot-available {
-  @apply bg-green-50 border-green-200 text-green-800 hover:bg-green-100;
+  @apply bg-gradient-to-br from-green-50 to-green-100 border-green-200 text-green-800 hover:from-green-100 hover:to-green-200 shadow-sm hover:shadow-md;
 }
 
 .time-slot-reserved {
-  @apply bg-red-50 border-red-200 text-red-800 cursor-not-allowed;
+  @apply bg-gradient-to-br from-red-50 to-red-100 border-red-200 text-red-800 cursor-not-allowed;
 }
 
 .time-slot-selected {
-  @apply bg-blue-100 border-blue-300 text-blue-900;
+  @apply bg-gradient-to-br from-blue-100 to-blue-200 border-blue-300 text-blue-900 shadow-md;
 }
 
-/* Footer styles */
-.footer {
-  @apply bg-gray-800 text-gray-300 py-8 mt-12;
-}
-
-.footer a {
-  @apply text-gray-300 hover:text-white transition-colors duration-200;
-}
-
-/* Accessibility improvements */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Focus styles for keyboard navigation */
+/* Professional accessibility */
 .focus-visible {
   @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
 }
@@ -266,110 +324,6 @@ input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
   @apply outline-none ring-2 ring-blue-500 ring-offset-2;
-}
-
-/* Print styles */
-@media print {
-  .no-print {
-    display: none !important;
-  }
-  
-  .print-full-width {
-    width: 100% !important;
-  }
-}
-
-/* Custom scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  @apply bg-gray-100 rounded;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  @apply bg-gray-400 rounded hover:bg-gray-500;
-}
-
-/* Animation classes */
-.fade-in {
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.slide-up {
-  animation: slideUp 0.3s ease-out;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Success/Error message styles */
-.message-success {
-  @apply bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4;
-}
-
-.message-error {
-  @apply bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4;
-}
-
-.message-warning {
-  @apply bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-4;
-}
-
-/* Mobile-specific styles */
-@media (max-width: 640px) {
-  .container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  
-  .text-responsive {
-    font-size: 0.875rem;
-  }
-  
-  .card-mobile {
-    margin: 0.5rem;
-    padding: 1rem;
-  }
-  
-  .button-mobile {
-    width: 100%;
-    padding: 0.75rem;
-  }
-  
-  .nav-mobile {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .table-mobile {
-    font-size: 0.75rem;
-  }
-  
-  .table-mobile th,
-  .table-mobile td {
-    padding: 0.5rem 0.25rem;
-  }
 }
 
 /* High contrast mode support */
