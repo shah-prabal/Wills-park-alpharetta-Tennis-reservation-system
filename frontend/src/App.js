@@ -366,10 +366,26 @@ function App() {
 
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
-            <nav className="flex space-x-8">
+            <nav className="flex space-x-8 border-b">
               <button
-                onClick={() => setActiveTab('book')}
-                className={`pb-4 border-b-2 font-medium ${
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab('home');
+                }}
+                className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
+                  activeTab === 'home'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Home
+              </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab('book');
+                }}
+                className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'book'
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -378,8 +394,11 @@ function App() {
                 Book Courts
               </button>
               <button
-                onClick={() => setActiveTab('availability')}
-                className={`pb-4 border-b-2 font-medium ${
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab('availability');
+                }}
+                className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'availability'
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -388,8 +407,11 @@ function App() {
                 Check Availability
               </button>
               <button
-                onClick={() => setActiveTab('reservations')}
-                className={`pb-4 border-b-2 font-medium ${
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab('reservations');
+                }}
+                className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'reservations'
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -397,8 +419,247 @@ function App() {
               >
                 My Reservations
               </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab('contact');
+                }}
+                className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
+                  activeTab === 'contact'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Contact
+              </button>
             </nav>
           </div>
+
+          {activeTab === 'home' && (
+            <div className="space-y-8">
+              {/* Hero Section */}
+              <div className="bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-xl p-8">
+                <div className="max-w-4xl">
+                  <h1 className="text-3xl md:text-4xl font-bold mb-4">
+                    Welcome to Wills Park Tennis Courts
+                  </h1>
+                  <p className="text-xl mb-6 opacity-90">
+                    Your premier tennis destination in the heart of Alpharetta. Book courts, check availability, and manage your reservations with ease.
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setActiveTab('book');
+                      }}
+                      className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                    >
+                      Book a Court Now
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setActiveTab('availability');
+                      }}
+                      className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors"
+                    >
+                      Check Availability
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+                  <div className="text-3xl font-bold text-blue-600 mb-2">4</div>
+                  <div className="text-gray-600">Available Courts</div>
+                  <div className="text-sm text-gray-500 mt-2">Courts 1-4 ready for play</div>
+                </div>
+                <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+                  <div className="text-3xl font-bold text-green-600 mb-2">
+                    ${user?.is_resident || user?.is_alta_member || user?.is_usta_member ? '4' : '6'}
+                  </div>
+                  <div className="text-gray-600">Your Hourly Rate</div>
+                  <div className="text-sm text-gray-500 mt-2">
+                    {user?.is_resident ? 'Resident rate' : 'Non-resident rate'}
+                  </div>
+                </div>
+                <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+                  <div className="text-3xl font-bold text-purple-600 mb-2">7AM-10PM</div>
+                  <div className="text-gray-600">Operating Hours</div>
+                  <div className="text-sm text-gray-500 mt-2">Daily availability</div>
+                </div>
+              </div>
+
+              {/* Court Features */}
+              <div className="bg-white rounded-xl shadow-lg p-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Court Features</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div className="text-center">
+                    <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <span className="text-2xl">🎾</span>
+                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-2">Professional Courts</h3>
+                    <p className="text-gray-600 text-sm">High-quality surfaces for optimal play</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <span className="text-2xl">💡</span>
+                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-2">LED Lighting</h3>
+                    <p className="text-gray-600 text-sm">Play day or night with excellent visibility</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <span className="text-2xl">🏐</span>
+                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-2">Pickleball Ready</h3>
+                    <p className="text-gray-600 text-sm">All courts lined for pickleball play</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <span className="text-2xl">🅿️</span>
+                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-2">Free Parking</h3>
+                    <p className="text-gray-600 text-sm">Convenient parking available</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Actions */}
+              <div className="bg-white rounded-xl shadow-lg p-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Quick Actions</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setActiveTab('reservations');
+                    }}
+                    className="flex items-center p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all"
+                  >
+                    <div className="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
+                      <span className="text-xl">📅</span>
+                    </div>
+                    <div className="text-left">
+                      <h3 className="font-semibold text-gray-900">View My Reservations</h3>
+                      <p className="text-gray-600 text-sm">Check your upcoming bookings</p>
+                    </div>
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setActiveTab('contact');
+                    }}
+                    className="flex items-center p-4 border border-gray-200 rounded-lg hover:border-green-300 hover:bg-green-50 transition-all"
+                  >
+                    <div className="bg-green-100 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
+                      <span className="text-xl">📞</span>
+                    </div>
+                    <div className="text-left">
+                      <h3 className="font-semibold text-gray-900">Contact Us</h3>
+                      <p className="text-gray-600 text-sm">Get help or ask questions</p>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Rules & Policies */}
+              <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-8">
+                <h2 className="text-2xl font-bold text-yellow-900 mb-6">Important Booking Information</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h3 className="font-semibold text-yellow-900 mb-3">Booking Rules</h3>
+                    <ul className="text-yellow-800 text-sm space-y-2">
+                      <li>• Minimum reservation: 2 hours</li>
+                      <li>• Maximum attendees: 20 per court</li>
+                      <li>• Residents: Book up to 7 days in advance</li>
+                      <li>• Non-residents: Book up to 5 days in advance</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-yellow-900 mb-3">Pricing</h3>
+                    <ul className="text-yellow-800 text-sm space-y-2">
+                      <li>• Residents/ALTA/USTA: $4 per hour</li>
+                      <li>• Non-residents: $6 per hour</li>
+                      <li>• Payment required at booking</li>
+                      <li>• Cancellation policy applies</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'contact' && (
+            <div className="bg-white rounded-xl shadow-lg p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Contact Information</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Get in Touch</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center">
+                      <div className="bg-blue-100 w-10 h-10 rounded-lg flex items-center justify-center mr-4">
+                        <span className="text-lg">📞</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Phone</p>
+                        <p className="text-gray-600">678-297-6130</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="bg-green-100 w-10 h-10 rounded-lg flex items-center justify-center mr-4">
+                        <span className="text-lg">✉️</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Email</p>
+                        <p className="text-gray-600">athleticprograms@alpharetta.ga.us</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="bg-purple-100 w-10 h-10 rounded-lg flex items-center justify-center mr-4">
+                        <span className="text-lg">📍</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Location</p>
+                        <p className="text-gray-600">Wills Park Recreation Center<br />11925 Wills Rd, Alpharetta, GA 30009</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Operating Hours</h3>
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Monday - Sunday</span>
+                        <span className="font-medium text-gray-900">7:00 AM - 10:00 PM</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4 mt-6">Need Help?</h3>
+                  <div className="space-y-3">
+                    <a
+                      href="https://www.alpharetta.ga.us/government/departments/recreation-parks"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block p-3 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all"
+                    >
+                      <span className="font-medium text-blue-600">Visit City Website</span>
+                      <p className="text-sm text-gray-600">alpharetta.ga.us/recreation-parks</p>
+                    </a>
+                    <div className="p-3 border border-gray-200 rounded-lg">
+                      <span className="font-medium text-gray-900">Facility Manager</span>
+                      <p className="text-sm text-gray-600">Available during operating hours for assistance</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {activeTab === 'book' && (
             <div className="bg-white rounded-xl shadow-lg p-6">
