@@ -281,12 +281,12 @@ function App() {
             </div>
 
             <div className="mt-8 p-4 bg-gray-50 rounded-lg">
-              <h3 className="font-semibold text-gray-800 mb-2">Demo Accounts:</h3>
-              <p className="text-sm text-gray-600 mb-1">
-                <strong>Member:</strong> membermock / trial123
-              </p>
+              <h3 className="font-semibold text-gray-800 mb-2">Demo Account:</h3>
               <p className="text-sm text-gray-600">
-                <strong>Staff:</strong> AlpharettaStaff1122 / JVtt3MfdJLGv6Qv0MUC3
+                <strong>Member Demo:</strong> membermock / trial123
+              </p>
+              <p className="text-xs text-gray-500 mt-2">
+                For staff access, please contact your system administrator.
               </p>
             </div>
           </div>
