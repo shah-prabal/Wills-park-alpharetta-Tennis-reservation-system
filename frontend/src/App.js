@@ -625,72 +625,181 @@ function App() {
           )}
 
           {activeTab === 'contact' && (
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Contact Information</h2>
+            <div className="card fade-in-up">
+              <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Contact Information</h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Get in Touch</h3>
-                  <div className="space-y-4">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h3>
+                  <div className="space-y-6">
                     <div className="flex items-center">
-                      <div className="bg-blue-100 w-10 h-10 rounded-lg flex items-center justify-center mr-4">
-                        <span className="text-lg">📞</span>
+                      <div className="feature-icon feature-icon-blue mr-6">
+                        <span className="text-2xl">📞</span>
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">Phone</p>
-                        <p className="text-gray-600">678-297-6130</p>
+                        <p className="font-bold text-gray-900 text-lg">Phone</p>
+                        <p className="text-gray-700 text-lg">678-297-6130</p>
                       </div>
                     </div>
                     <div className="flex items-center">
-                      <div className="bg-green-100 w-10 h-10 rounded-lg flex items-center justify-center mr-4">
-                        <span className="text-lg">✉️</span>
+                      <div className="feature-icon feature-icon-green mr-6">
+                        <span className="text-2xl">✉️</span>
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">Email</p>
-                        <p className="text-gray-600">athleticprograms@alpharetta.ga.us</p>
+                        <p className="font-bold text-gray-900 text-lg">Email</p>
+                        <p className="text-gray-700 text-lg">athleticprograms@alpharetta.ga.us</p>
                       </div>
                     </div>
                     <div className="flex items-center">
-                      <div className="bg-purple-100 w-10 h-10 rounded-lg flex items-center justify-center mr-4">
-                        <span className="text-lg">📍</span>
+                      <div className="feature-icon feature-icon-red mr-6">
+                        <span className="text-2xl">📍</span>
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">Location</p>
-                        <p className="text-gray-600">Wills Park Recreation Center<br />11925 Wills Rd, Alpharetta, GA 30009</p>
+                        <p className="font-bold text-gray-900 text-lg">Location</p>
+                        <p className="text-gray-700 text-lg">Wills Park Recreation Center<br />11925 Wills Rd, Alpharetta, GA 30009</p>
                       </div>
                     </div>
                   </div>
                 </div>
                 
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Operating Hours</h3>
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Monday - Sunday</span>
-                        <span className="font-medium text-gray-900">7:00 AM - 10:00 PM</span>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Operating Hours</h3>
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 shadow-md mb-8">
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-700 font-semibold text-lg">Monday - Sunday</span>
+                        <span className="font-bold text-blue-700 text-lg">7:00 AM - 10:00 PM</span>
                       </div>
                     </div>
                   </div>
                   
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4 mt-6">Need Help?</h3>
-                  <div className="space-y-3">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Need Help?</h3>
+                  <div className="space-y-4">
                     <a
                       href="https://www.alpharetta.ga.us/government/departments/recreation-parks"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block p-3 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all"
+                      className="contact-card block p-6 border-2 border-gray-200 rounded-2xl hover:border-blue-300 hover:bg-blue-50 transition-all duration-300"
                     >
-                      <span className="font-medium text-blue-600">Visit City Website</span>
-                      <p className="text-sm text-gray-600">alpharetta.ga.us/recreation-parks</p>
+                      <span className="font-bold text-blue-600 text-lg">Visit City Website</span>
+                      <p className="text-gray-600 mt-2">alpharetta.ga.us/recreation-parks</p>
                     </a>
-                    <div className="p-3 border border-gray-200 rounded-lg">
-                      <span className="font-medium text-gray-900">Facility Manager</span>
-                      <p className="text-sm text-gray-600">Available during operating hours for assistance</p>
+                    <div className="contact-card p-6 border-2 border-gray-200 rounded-2xl">
+                      <span className="font-bold text-gray-900 text-lg">Facility Manager</span>
+                      <p className="text-gray-600 mt-2">Available during operating hours for assistance</p>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+          )}
+
+          {activeTab === 'availability' && (
+            <div className="card fade-in-up">
+              <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Court Availability</h2>
+              
+              <div className="mb-8">
+                <label className="form-label text-lg">
+                  Select Date
+                </label>
+                <input
+                  type="date"
+                  value={selectedDate}
+                  onChange={(e) => {
+                    setSelectedDate(e.target.value);
+                    fetchCourtAvailability(e.target.value);
+                  }}
+                  className="form-input max-w-xs"
+                />
+              </div>
+
+              <div className="court-grid">
+                {courts.filter(court => court.available).map(court => (
+                  <div key={court.id} className="card card-hover">
+                    <h3 className="font-bold text-gray-900 mb-4 text-xl">{court.name}</h3>
+                    <div className="space-y-3">
+                      {reservations
+                        .filter(res => res.court_id === court.id)
+                        .map(reservation => (
+                          <div key={reservation.id} className="bg-gradient-to-r from-red-100 to-red-200 p-4 rounded-xl border border-red-300 shadow-sm">
+                            <p className="text-red-800 font-semibold">
+                              {new Date(reservation.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - 
+                              {new Date(reservation.end_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                            </p>
+                            <p className="text-red-600 text-sm font-medium">Reserved</p>
+                          </div>
+                        ))}
+                      {reservations.filter(res => res.court_id === court.id).length === 0 && (
+                        <div className="bg-gradient-to-r from-green-100 to-green-200 p-4 rounded-xl border border-green-300 shadow-sm">
+                          <p className="text-green-800 font-semibold">Available all day</p>
+                          <p className="text-green-600 text-sm">Ready for booking</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'reservations' && (
+            <div className="card fade-in-up">
+              <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">My Reservations</h2>
+              
+              {reservations.length === 0 ? (
+                <div className="text-center py-12">
+                  <div className="feature-icon feature-icon-blue mx-auto mb-6">
+                    <span className="text-4xl">📅</span>
+                  </div>
+                  <p className="text-gray-500 text-xl mb-6">No reservations found.</p>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setActiveTab('book');
+                    }}
+                    className="btn-primary"
+                  >
+                    Book Your First Court
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {reservations.map(reservation => (
+                    <div key={reservation.id} className="card card-hover">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="font-bold text-gray-900 text-xl mb-2">
+                            Court {reservation.court_id}
+                          </h3>
+                          <p className="text-gray-700 text-lg mb-1">
+                            {new Date(reservation.start_time).toLocaleDateString()} | 
+                            {new Date(reservation.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - 
+                            {new Date(reservation.end_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                          </p>
+                          <p className="text-gray-600">
+                            Attendees: {reservation.attendees}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <span className={`status-badge ${
+                            reservation.status === 'confirmed' 
+                              ? 'status-confirmed'
+                              : reservation.status === 'pending'
+                              ? 'status-pending'
+                              : 'status-cancelled'
+                          }`}>
+                            {reservation.status}
+                          </span>
+                          <p className="text-gray-900 font-bold mt-2 text-xl">
+                            ${reservation.total_cost}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
