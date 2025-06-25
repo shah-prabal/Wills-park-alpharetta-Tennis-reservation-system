@@ -1,38 +1,397 @@
-.App {
-    text-align: center;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom styles for the tennis court reservation system */
+
+:root {
+  --alpharetta-blue: #1e40af;
+  --alpharetta-green: #059669;
+  --alpharetta-light-blue: #dbeafe;
+  --alpharetta-light-green: #d1fae5;
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8fafc;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+/* Professional button styles */
+.btn-primary {
+  @apply bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 font-semibold transition-colors duration-200;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
+.btn-secondary {
+  @apply bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 font-semibold transition-colors duration-200;
+}
+
+.btn-danger {
+  @apply bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 font-semibold transition-colors duration-200;
+}
+
+.btn-success {
+  @apply bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 font-semibold transition-colors duration-200;
+}
+
+/* Card styles */
+.card {
+  @apply bg-white rounded-xl shadow-lg p-6 border border-gray-100;
+}
+
+.card-header {
+  @apply border-b border-gray-200 pb-4 mb-6;
+}
+
+/* Form styles */
+.form-input {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-gray-700 mb-2;
+}
+
+.form-group {
+  @apply mb-4;
+}
+
+/* Navigation styles */
+.nav-tab {
+  @apply pb-4 border-b-2 font-medium transition-colors duration-200 cursor-pointer;
+}
+
+.nav-tab-active {
+  @apply border-blue-500 text-blue-600;
+}
+
+.nav-tab-inactive {
+  @apply border-transparent text-gray-500 hover:text-gray-700;
+}
+
+/* Status badges */
+.status-badge {
+  @apply px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.status-confirmed {
+  @apply bg-green-100 text-green-800;
+}
+
+.status-pending {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.status-cancelled {
+  @apply bg-red-100 text-red-800;
+}
+
+/* Court availability styles */
+.court-available {
+  @apply bg-green-100 border-green-200 text-green-800;
+}
+
+.court-reserved {
+  @apply bg-red-100 border-red-200 text-red-800;
+}
+
+.court-maintenance {
+  @apply bg-gray-100 border-gray-200 text-gray-800;
+}
+
+/* Alert styles */
+.alert {
+  @apply p-4 rounded-lg border mb-4;
+}
+
+.alert-success {
+  @apply bg-green-50 border-green-200 text-green-700;
+}
+
+.alert-error {
+  @apply bg-red-50 border-red-200 text-red-700;
+}
+
+.alert-warning {
+  @apply bg-yellow-50 border-yellow-200 text-yellow-700;
+}
+
+.alert-info {
+  @apply bg-blue-50 border-blue-200 text-blue-700;
+}
+
+/* Table styles */
+.table {
+  @apply w-full border-collapse;
+}
+
+.table th {
+  @apply bg-gray-50 px-4 py-3 text-left text-sm font-medium text-gray-700 border-b border-gray-200;
+}
+
+.table td {
+  @apply px-4 py-3 border-b border-gray-200;
+}
+
+.table tr:hover {
+  @apply bg-gray-50;
+}
+
+/* Loading spinner */
+.spinner {
+  @apply animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .mobile-hidden {
+    display: none;
+  }
+  
+  .mobile-full {
+    width: 100% !important;
+  }
+  
+  .mobile-stack {
+    flex-direction: column !important;
+  }
+  
+  .mobile-p-2 {
+    padding: 0.5rem !important;
+  }
+  
+  .mobile-text-sm {
+    font-size: 0.875rem !important;
+  }
+}
+
+/* Court grid styles */
+.court-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .court-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Professional header styles */
+.header-gradient {
+  background: linear-gradient(135deg, var(--alpharetta-blue) 0%, var(--alpharetta-green) 100%);
+}
+
+/* Pricing display styles */
+.pricing-info {
+  @apply bg-blue-50 border border-blue-200 rounded-lg p-4;
+}
+
+.pricing-info h3 {
+  @apply text-blue-900 font-semibold mb-2;
+}
+
+.pricing-info p {
+  @apply text-blue-800 text-sm;
+}
+
+/* Rules display styles */
+.rules-info {
+  @apply bg-yellow-50 border border-yellow-200 rounded-lg p-4;
+}
+
+.rules-info h3 {
+  @apply text-yellow-900 font-semibold mb-2;
+}
+
+.rules-info ul {
+  @apply text-yellow-800 text-sm space-y-1;
+}
+
+/* Dashboard card animations */
+.dashboard-card {
+  @apply transform transition-transform duration-200 hover:scale-105;
+}
+
+/* Time slot styles */
+.time-slot {
+  @apply p-2 rounded text-sm text-center border cursor-pointer transition-colors duration-200;
+}
+
+.time-slot-available {
+  @apply bg-green-50 border-green-200 text-green-800 hover:bg-green-100;
+}
+
+.time-slot-reserved {
+  @apply bg-red-50 border-red-200 text-red-800 cursor-not-allowed;
+}
+
+.time-slot-selected {
+  @apply bg-blue-100 border-blue-300 text-blue-900;
+}
+
+/* Footer styles */
+.footer {
+  @apply bg-gray-800 text-gray-300 py-8 mt-12;
+}
+
+.footer a {
+  @apply text-gray-300 hover:text-white transition-colors duration-200;
+}
+
+/* Accessibility improvements */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus styles for keyboard navigation */
+.focus-visible {
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-full-width {
+    width: 100% !important;
+  }
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-gray-100 rounded;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 rounded hover:bg-gray-500;
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Success/Error message styles */
+.message-success {
+  @apply bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4;
+}
+
+.message-error {
+  @apply bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4;
+}
+
+.message-warning {
+  @apply bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-4;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .text-responsive {
+    font-size: 0.875rem;
+  }
+  
+  .card-mobile {
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .button-mobile {
+    width: 100%;
+    padding: 0.75rem;
+  }
+  
+  .nav-mobile {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+    gap: 0.5rem;
+  }
+  
+  .table-mobile {
+    font-size: 0.75rem;
+  }
+  
+  .table-mobile th,
+  .table-mobile td {
+    padding: 0.5rem 0.25rem;
+  }
 }
 
-.App-link {
-    color: #61dafb;
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn-primary {
+    @apply border-2 border-blue-800;
+  }
+  
+  .form-input {
+    @apply border-2 border-gray-600;
+  }
+  
+  .card {
+    @apply border-2 border-gray-400;
+  }
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

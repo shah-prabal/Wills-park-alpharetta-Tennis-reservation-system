@@ -1,54 +1,854 @@
-import { useEffect } from "react";
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import './App.css';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+const STRIPE_PUBLISHABLE_KEY = 'pk_test_51Re2MCPILVO0kCRV7JN4UiSYfbK1Cfmnsmgz0OO5706JtssWlDCgqqG36RMOC8jrzMn5krKWgxmrTd97NTktje7I00vj07zsqi';
 
-const Home = () => {
-  const helloWorldApi = async () => {
+function App() {
+  const [currentPage, setCurrentPage] = useState('login');
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [courts, setCourts] = useState([]);
+  const [reservations, setReservations] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  // Load Stripe
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://js.stripe.com/v3/';
+    script.onload = () => {
+      window.stripe = window.Stripe(STRIPE_PUBLISHABLE_KEY);
+    };
+    document.head.appendChild(script);
+  }, []);
+
+  // Check authentication on load
+  useEffect(() => {
+    if (token) {
+      fetchUserProfile();
+    }
+  }, [token]);
+
+  const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
+      const response = await fetch(`${BACKEND_URL}/api/courts`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.ok) {
+        setCurrentPage(user?.is_staff ? 'admin' : 'dashboard');
+      } else {
+        localStorage.removeItem('token');
+        setToken(null);
+      }
+    } catch (err) {
+      console.error('Auth check failed:', err);
     }
   };
 
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
+  const handleLogin = async (username, password) => {
+    setLoading(true);
+    setError('');
+    
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
+      const data = await response.json();
+      
+      if (response.ok) {
+        setUser(data.user);
+        setToken(data.token);
+        localStorage.setItem('token', data.token);
+        setCurrentPage(data.user.is_staff ? 'admin' : 'dashboard');
+        setSuccess('Login successful!');
+      } else {
+        setError(data.detail || 'Login failed');
+      }
+    } catch (err) {
+      setError('Login failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
+  const handleLogout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem('token');
+    setCurrentPage('login');
+  };
+
+  const fetchCourts = async () => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/courts`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setCourts(data.courts);
+      }
+    } catch (err) {
+      console.error('Failed to fetch courts:', err);
+    }
+  };
+
+  const fetchCourtAvailability = async (date) => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/courts/availability?date=${date}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setReservations(data.reservations);
+      }
+    } catch (err) {
+      console.error('Failed to fetch availability:', err);
+    }
+  };
+
+  const fetchMyReservations = async () => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/reservations/my`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setReservations(data.reservations);
+      }
+    } catch (err) {
+      console.error('Failed to fetch reservations:', err);
+    }
+  };
+
+  const createReservation = async (courtId, startTime, endTime, attendees) => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/reservations`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          court_id: courtId,
+          start_time: startTime,
+          end_time: endTime,
+          attendees: parseInt(attendees)
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Process payment with Stripe
+        if (window.stripe && data.client_secret) {
+          const { error } = await window.stripe.confirmCardPayment(data.client_secret, {
+            payment_method: {
+              card: {
+                // In a real app, you'd use Stripe Elements for card input
+                // For demo purposes, using test card
+                number: '4242424242424242',
+                exp_month: 12,
+                exp_year: 2025,
+                cvc: '123',
+              }
+            }
+          });
+
+          if (error) {
+            setError(`Payment failed: ${error.message}`);
+          } else {
+            setSuccess(`Reservation created! Total cost: $${data.total_cost}`);
+            fetchMyReservations();
+          }
+        }
+      } else {
+        setError(data.detail || 'Reservation failed');
+      }
+    } catch (err) {
+      setError('Reservation failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Login Page Component
+  const LoginPage = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
+        <div className="container mx-auto px-4 py-12">
+          <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg p-8">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                Wills Park Tennis Courts
+              </h1>
+              <p className="text-gray-600">City of Alpharetta</p>
+            </div>
+
+            {error && (
+              <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-600 text-sm">{error}</p>
+              </div>
+            )}
+
+            {success && (
+              <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <p className="text-green-600 text-sm">{success}</p>
+              </div>
+            )}
+
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              handleLogin(username, password);
+            }}>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  required
+                />
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 font-semibold"
+              >
+                {loading ? 'Signing In...' : 'Sign In'}
+              </button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-600 mb-2">
+                Don't have an account?{' '}
+                <a 
+                  href="https://anc.apm.activecommunities.com/alpharetta/createaccount?onlineSiteId=0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  Sign up here
+                </a>
+              </p>
+              <p className="text-sm text-gray-600">
+                Staff member?{' '}
+                <button
+                  onClick={() => setCurrentPage('staff-login')}
+                  className="text-blue-600 hover:underline"
+                >
+                  Log in here
+                </button>
+              </p>
+            </div>
+
+            <div className="mt-8 p-4 bg-gray-50 rounded-lg">
+              <h3 className="font-semibold text-gray-800 mb-2">Demo Accounts:</h3>
+              <p className="text-sm text-gray-600 mb-1">
+                <strong>Member:</strong> membermock / trial123
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Staff:</strong> AlpharettaStaff1122 / JVtt3MfdJLGv6Qv0MUC3
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // User Dashboard Component
+  const UserDashboard = () => {
+    const [activeTab, setActiveTab] = useState('book');
+    const [bookingForm, setBookingForm] = useState({
+      courtId: '',
+      date: selectedDate,
+      startTime: '',
+      endTime: '',
+      attendees: 1
+    });
+
+    useEffect(() => {
+      fetchCourts();
+      fetchMyReservations();
+    }, []);
+
+    useEffect(() => {
+      fetchCourtAvailability(bookingForm.date);
+    }, [bookingForm.date]);
+
+    const handleBooking = (e) => {
+      e.preventDefault();
+      const startDateTime = `${bookingForm.date}T${bookingForm.startTime}:00`;
+      const endDateTime = `${bookingForm.date}T${bookingForm.endTime}:00`;
+      
+      createReservation(
+        parseInt(bookingForm.courtId),
+        startDateTime,
+        endDateTime,
+        bookingForm.attendees
+      );
+    };
+
+    const calculatePrice = () => {
+      if (!bookingForm.startTime || !bookingForm.endTime) return 0;
+      
+      const start = new Date(`${bookingForm.date}T${bookingForm.startTime}`);
+      const end = new Date(`${bookingForm.date}T${bookingForm.endTime}`);
+      const hours = (end - start) / (1000 * 60 * 60);
+      
+      const isResident = user?.is_resident || user?.is_alta_member || user?.is_usta_member;
+      const rate = isResident ? 4 : 6;
+      
+      return (hours * rate).toFixed(2);
+    };
+
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <header className="bg-white shadow-sm border-b">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex justify-between items-center">
+              <h1 className="text-2xl font-bold text-gray-900">
+                Wills Park Tennis Courts
+              </h1>
+              <div className="flex items-center space-x-4">
+                <span className="text-gray-600">Welcome, {user?.username}</span>
+                <button
+                  onClick={handleLogout}
+                  className="text-red-600 hover:text-red-800"
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="container mx-auto px-4 py-8">
+          <div className="mb-8">
+            <nav className="flex space-x-8">
+              <button
+                onClick={() => setActiveTab('book')}
+                className={`pb-4 border-b-2 font-medium ${
+                  activeTab === 'book'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Book Courts
+              </button>
+              <button
+                onClick={() => setActiveTab('availability')}
+                className={`pb-4 border-b-2 font-medium ${
+                  activeTab === 'availability'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Check Availability
+              </button>
+              <button
+                onClick={() => setActiveTab('reservations')}
+                className={`pb-4 border-b-2 font-medium ${
+                  activeTab === 'reservations'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                My Reservations
+              </button>
+            </nav>
+          </div>
+
+          {activeTab === 'book' && (
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold mb-6">Book a Court</h2>
+              
+              <form onSubmit={handleBooking} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Court
+                    </label>
+                    <select
+                      value={bookingForm.courtId}
+                      onChange={(e) => setBookingForm({...bookingForm, courtId: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                      required
+                    >
+                      <option value="">Select a court</option>
+                      {courts.filter(court => court.available).map(court => (
+                        <option key={court.id} value={court.id}>
+                          {court.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Date
+                    </label>
+                    <input
+                      type="date"
+                      value={bookingForm.date}
+                      onChange={(e) => setBookingForm({...bookingForm, date: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Start Time
+                    </label>
+                    <input
+                      type="time"
+                      value={bookingForm.startTime}
+                      onChange={(e) => setBookingForm({...bookingForm, startTime: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      End Time
+                    </label>
+                    <input
+                      type="time"
+                      value={bookingForm.endTime}
+                      onChange={(e) => setBookingForm({...bookingForm, endTime: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Number of Attendees
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="20"
+                      value={bookingForm.attendees}
+                      onChange={(e) => setBookingForm({...bookingForm, attendees: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <h3 className="font-semibold text-blue-900 mb-2">Pricing Information</h3>
+                  <p className="text-blue-800 text-sm mb-2">
+                    <strong>Your Status:</strong> {user?.is_resident ? 'Resident' : 'Non-Resident'}
+                    {user?.is_alta_member && ' (ALTA Member)'}
+                    {user?.is_usta_member && ' (USTA Member)'}
+                  </p>
+                  <p className="text-blue-800 text-sm mb-2">
+                    <strong>Rate:</strong> ${user?.is_resident || user?.is_alta_member || user?.is_usta_member ? '4' : '6'} per hour
+                  </p>
+                  <p className="text-blue-800 text-sm font-semibold">
+                    <strong>Estimated Cost:</strong> ${calculatePrice()}
+                  </p>
+                </div>
+
+                <div className="bg-yellow-50 p-4 rounded-lg">
+                  <h3 className="font-semibold text-yellow-900 mb-2">Booking Rules</h3>
+                  <ul className="text-yellow-800 text-sm space-y-1">
+                    <li>• Minimum reservation: 2 hours</li>
+                    <li>• Maximum attendees: 20 per court</li>
+                    <li>• Residents: 7 days advance booking</li>
+                    <li>• Non-residents: 5 days advance booking</li>
+                    <li>• Courts available: 7:00 AM - 10:00 PM</li>
+                  </ul>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 disabled:opacity-50 font-semibold"
+                >
+                  {loading ? 'Processing...' : `Book Court - $${calculatePrice()}`}
+                </button>
+              </form>
+            </div>
+          )}
+
+          {activeTab === 'availability' && (
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold mb-6">Court Availability</h2>
+              
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Select Date
+                </label>
+                <input
+                  type="date"
+                  value={selectedDate}
+                  onChange={(e) => {
+                    setSelectedDate(e.target.value);
+                    fetchCourtAvailability(e.target.value);
+                  }}
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {courts.filter(court => court.available).map(court => (
+                  <div key={court.id} className="border rounded-lg p-4">
+                    <h3 className="font-semibold text-gray-900 mb-2">{court.name}</h3>
+                    <div className="space-y-2">
+                      {reservations
+                        .filter(res => res.court_id === court.id)
+                        .map(reservation => (
+                          <div key={reservation.id} className="bg-red-100 p-2 rounded text-sm">
+                            <p className="text-red-800">
+                              {new Date(reservation.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - 
+                              {new Date(reservation.end_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                            </p>
+                            <p className="text-red-600 text-xs">Reserved</p>
+                          </div>
+                        ))}
+                      {reservations.filter(res => res.court_id === court.id).length === 0 && (
+                        <div className="bg-green-100 p-2 rounded text-sm">
+                          <p className="text-green-800">Available all day</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'reservations' && (
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold mb-6">My Reservations</h2>
+              
+              {reservations.length === 0 ? (
+                <p className="text-gray-500 text-center py-8">No reservations found.</p>
+              ) : (
+                <div className="space-y-4">
+                  {reservations.map(reservation => (
+                    <div key={reservation.id} className="border rounded-lg p-4">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="font-semibold text-gray-900">
+                            Court {reservation.court_id}
+                          </h3>
+                          <p className="text-gray-600">
+                            {new Date(reservation.start_time).toLocaleDateString()} | 
+                            {new Date(reservation.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - 
+                            {new Date(reservation.end_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                          </p>
+                          <p className="text-gray-600">
+                            Attendees: {reservation.attendees}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <span className={`px-3 py-1 rounded-full text-sm ${
+                            reservation.status === 'confirmed' 
+                              ? 'bg-green-100 text-green-800'
+                              : reservation.status === 'pending'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                            {reservation.status}
+                          </span>
+                          <p className="text-gray-900 font-semibold mt-1">
+                            ${reservation.total_cost}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // Admin Dashboard Component
+  const AdminDashboard = () => {
+    const [allReservations, setAllReservations] = useState([]);
+    const [allUsers, setAllUsers] = useState([]);
+    const [analytics, setAnalytics] = useState({});
+    const [activeTab, setActiveTab] = useState('overview');
+
+    useEffect(() => {
+      fetchAdminData();
+    }, []);
+
+    const fetchAdminData = async () => {
+      try {
+        const [reservationsRes, usersRes, analyticsRes] = await Promise.all([
+          fetch(`${BACKEND_URL}/api/admin/reservations`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          }),
+          fetch(`${BACKEND_URL}/api/admin/users`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          }),
+          fetch(`${BACKEND_URL}/api/admin/analytics`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          })
+        ]);
+
+        const reservationsData = await reservationsRes.json();
+        const usersData = await usersRes.json();
+        const analyticsData = await analyticsRes.json();
+
+        setAllReservations(reservationsData.reservations || []);
+        setAllUsers(usersData.users || []);
+        setAnalytics(analyticsData);
+      } catch (err) {
+        console.error('Failed to fetch admin data:', err);
+      }
+    };
+
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <header className="bg-white shadow-sm border-b">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex justify-between items-center">
+              <h1 className="text-2xl font-bold text-gray-900">
+                Admin Dashboard - Wills Park Tennis
+              </h1>
+              <div className="flex items-center space-x-4">
+                <span className="text-gray-600">Staff: {user?.username}</span>
+                <button
+                  onClick={handleLogout}
+                  className="text-red-600 hover:text-red-800"
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="container mx-auto px-4 py-8">
+          <div className="mb-8">
+            <nav className="flex space-x-8">
+              <button
+                onClick={() => setActiveTab('overview')}
+                className={`pb-4 border-b-2 font-medium ${
+                  activeTab === 'overview'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Overview
+              </button>
+              <button
+                onClick={() => setActiveTab('reservations')}
+                className={`pb-4 border-b-2 font-medium ${
+                  activeTab === 'reservations'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                All Reservations
+              </button>
+              <button
+                onClick={() => setActiveTab('users')}
+                className={`pb-4 border-b-2 font-medium ${
+                  activeTab === 'users'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Users
+              </button>
+            </nav>
+          </div>
+
+          {activeTab === 'overview' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Total Reservations</h3>
+                <p className="text-3xl font-bold text-blue-600">{analytics.total_reservations || 0}</p>
+              </div>
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Confirmed Bookings</h3>
+                <p className="text-3xl font-bold text-green-600">{analytics.confirmed_reservations || 0}</p>
+              </div>
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Total Revenue</h3>
+                <p className="text-3xl font-bold text-green-600">${analytics.total_revenue || 0}</p>
+              </div>
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Total Users</h3>
+                <p className="text-3xl font-bold text-gray-600">{analytics.total_users || 0}</p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'reservations' && (
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold mb-6">All Reservations</h2>
+              
+              <div className="overflow-x-auto">
+                <table className="w-full table-auto">
+                  <thead>
+                    <tr className="bg-gray-50">
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Court</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Date & Time</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">User</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Attendees</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Cost</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allReservations.map(reservation => (
+                      <tr key={reservation.id} className="border-t">
+                        <td className="px-4 py-3">Court {reservation.court_id}</td>
+                        <td className="px-4 py-3">
+                          <div>
+                            <p>{new Date(reservation.start_time).toLocaleDateString()}</p>
+                            <p className="text-sm text-gray-600">
+                              {new Date(reservation.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - 
+                              {new Date(reservation.end_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                            </p>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3">{reservation.user_id}</td>
+                        <td className="px-4 py-3">{reservation.attendees}</td>
+                        <td className="px-4 py-3">${reservation.total_cost}</td>
+                        <td className="px-4 py-3">
+                          <span className={`px-2 py-1 rounded-full text-xs ${
+                            reservation.status === 'confirmed' 
+                              ? 'bg-green-100 text-green-800'
+                              : reservation.status === 'pending'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                            {reservation.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'users' && (
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold mb-6">User Management</h2>
+              
+              <div className="overflow-x-auto">
+                <table className="w-full table-auto">
+                  <thead>
+                    <tr className="bg-gray-50">
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Username</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Email</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Resident</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">ALTA</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">USTA</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Staff</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allUsers.map(user => (
+                      <tr key={user.id} className="border-t">
+                        <td className="px-4 py-3">{user.username}</td>
+                        <td className="px-4 py-3">{user.email}</td>
+                        <td className="px-4 py-3">
+                          <span className={`px-2 py-1 rounded-full text-xs ${
+                            user.is_resident ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                          }`}>
+                            {user.is_resident ? 'Yes' : 'No'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <span className={`px-2 py-1 rounded-full text-xs ${
+                            user.is_alta_member ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
+                          }`}>
+                            {user.is_alta_member ? 'Yes' : 'No'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <span className={`px-2 py-1 rounded-full text-xs ${
+                            user.is_usta_member ? 'bg-purple-100 text-purple-800' : 'bg-gray-100 text-gray-800'
+                          }`}>
+                            {user.is_usta_member ? 'Yes' : 'No'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <span className={`px-2 py-1 rounded-full text-xs ${
+                            user.is_staff ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
+                          }`}>
+                            {user.is_staff ? 'Yes' : 'No'}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // Render appropriate page
+  if (currentPage === 'login' || currentPage === 'staff-login') {
+    return <LoginPage />;
+  } else if (currentPage === 'admin' && user?.is_staff) {
+    return <AdminDashboard />;
+  } else if (currentPage === 'dashboard') {
+    return <UserDashboard />;
+  }
+
+  return <LoginPage />;
 }
 
 export default App;
