@@ -1105,7 +1105,7 @@ function App() {
             <nav className="flex space-x-8 border-b">
               <button
                 type="button"
-                onClick={() => setActiveTab('overview')}
+                onClick={() => handleAdminTabChange('overview')}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'overview'
                     ? 'border-blue-500 text-blue-600'
@@ -1116,7 +1116,7 @@ function App() {
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab('reservations')}
+                onClick={() => handleAdminTabChange('reservations')}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'reservations'
                     ? 'border-blue-500 text-blue-600'
@@ -1127,7 +1127,7 @@ function App() {
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab('users')}
+                onClick={() => handleAdminTabChange('users')}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'users'
                     ? 'border-blue-500 text-blue-600'
@@ -1138,7 +1138,7 @@ function App() {
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab('analytics')}
+                onClick={() => handleAdminTabChange('analytics')}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'analytics'
                     ? 'border-blue-500 text-blue-600'
