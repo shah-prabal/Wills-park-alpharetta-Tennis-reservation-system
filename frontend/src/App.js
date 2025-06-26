@@ -410,7 +410,7 @@ function App() {
                   e.preventDefault();
                   e.stopPropagation();
                   console.log('Reservations button clicked');
-                  switchTab('reservations');
+                  goToTab('reservations');
                 }}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   currentTab === 'reservations'
