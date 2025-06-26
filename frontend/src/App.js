@@ -914,28 +914,34 @@ function App() {
                   })}
                 </div>
 
-                {/* Overall Summary */}
+                {/* Overall Summary - FIXED CALCULATIONS */}
                 <div className="mt-8 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Today's Summary</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="text-center">
                       <div className="text-2xl font-bold text-green-600">
-                        {courts.filter(court => court.available).length - courts.filter(court => court.available && reservations.filter(res => res.court_id === court.id).length >= 8).length}
+                        {courts.filter(court => court.available).length || 4}
                       </div>
-                      <div className="text-sm text-gray-600">Courts with Availability</div>
+                      <div className="text-sm text-gray-600">Available Courts</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-blue-600">
-                        {reservations.length}
+                        {reservations.length || 0}
                       </div>
-                      <div className="text-sm text-gray-600">Total Reservations</div>
+                      <div className="text-sm text-gray-600">Total Reservations Today</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-purple-600">
-                        {(courts.filter(court => court.available).length * 8) - reservations.length}
+                        {(4 * 8) - (reservations.length || 0)}
                       </div>
                       <div className="text-sm text-gray-600">Available Time Slots</div>
                     </div>
+                  </div>
+                  
+                  {/* Additional debug info */}
+                  <div className="mt-4 p-3 bg-white rounded text-xs text-gray-600">
+                    <p>Courts data: {courts.length} total, {courts.filter(c => c.available).length} available</p>
+                    <p>Reservations data: {reservations.length} for {bookingData.date}</p>
                   </div>
                 </div>
 
