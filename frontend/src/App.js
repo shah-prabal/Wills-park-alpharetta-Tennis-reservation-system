@@ -621,68 +621,70 @@ function App() {
           )}
 
           {currentTab === 'contact' && (
-            <div className="card fade-in-up">
+            <div className="bg-white rounded-xl shadow-lg p-8">
               <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Contact Information</h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h3>
-                  <div className="space-y-6">
-                    <div className="flex items-center">
-                      <div className="feature-icon feature-icon-blue mr-6">
-                        <span className="text-2xl">📞</span>
+              <div className="max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Get in Touch</h3>
+                    <div className="space-y-6">
+                      <div className="flex items-center">
+                        <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-6">
+                          <span className="text-2xl">📞</span>
+                        </div>
+                        <div>
+                          <p className="font-bold text-gray-900 text-lg">Phone</p>
+                          <p className="text-gray-700 text-lg">678-297-6130</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-bold text-gray-900 text-lg">Phone</p>
-                        <p className="text-gray-700 text-lg">678-297-6130</p>
+                      <div className="flex items-center">
+                        <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-6">
+                          <span className="text-2xl">✉️</span>
+                        </div>
+                        <div>
+                          <p className="font-bold text-gray-900 text-lg">Email</p>
+                          <p className="text-gray-700 text-lg">athleticprograms@alpharetta.ga.us</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="feature-icon feature-icon-green mr-6">
-                        <span className="text-2xl">✉️</span>
-                      </div>
-                      <div>
-                        <p className="font-bold text-gray-900 text-lg">Email</p>
-                        <p className="text-gray-700 text-lg">athleticprograms@alpharetta.ga.us</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="feature-icon feature-icon-red mr-6">
-                        <span className="text-2xl">📍</span>
-                      </div>
-                      <div>
-                        <p className="font-bold text-gray-900 text-lg">Location</p>
-                        <p className="text-gray-700 text-lg">Wills Park Recreation Center<br />11925 Wills Rd, Alpharetta, GA 30009</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Operating Hours</h3>
-                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 shadow-md mb-8">
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-700 font-semibold text-lg">Monday - Sunday</span>
-                        <span className="font-bold text-blue-700 text-lg">7:00 AM - 10:00 PM</span>
+                      <div className="flex items-center">
+                        <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-6">
+                          <span className="text-2xl">📍</span>
+                        </div>
+                        <div>
+                          <p className="font-bold text-gray-900 text-lg">Location</p>
+                          <p className="text-gray-700 text-lg">Wills Park Recreation Center<br />11925 Wills Rd, Alpharetta, GA 30009</p>
+                        </div>
                       </div>
                     </div>
                   </div>
                   
-                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Need Help?</h3>
-                  <div className="space-y-4">
-                    <a
-                      href="https://www.alpharetta.ga.us/government/departments/recreation-parks"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="contact-card block p-6 border-2 border-gray-200 rounded-2xl hover:border-blue-300 hover:bg-blue-50 transition-all duration-300"
-                    >
-                      <span className="font-bold text-blue-600 text-lg">Visit City Website</span>
-                      <p className="text-gray-600 mt-2">alpharetta.ga.us/recreation-parks</p>
-                    </a>
-                    <div className="contact-card p-6 border-2 border-gray-200 rounded-2xl">
-                      <span className="font-bold text-gray-900 text-lg">Facility Manager</span>
-                      <p className="text-gray-600 mt-2">Available during operating hours for assistance</p>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Operating Hours</h3>
+                    <div className="bg-blue-50 rounded-xl p-6 mb-8">
+                      <div className="text-center">
+                        <div className="flex justify-center items-center mb-2">
+                          <span className="text-gray-700 font-semibold text-lg">Monday - Sunday</span>
+                        </div>
+                        <span className="font-bold text-blue-700 text-lg">7:00 AM - 10:00 PM</span>
+                      </div>
+                    </div>
+                    
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Need Help?</h3>
+                    <div className="space-y-4">
+                      <a
+                        href="https://www.alpharetta.ga.us/government/departments/recreation-parks"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block p-6 border-2 border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all text-center"
+                      >
+                        <span className="font-bold text-blue-600 text-lg">Visit City Website</span>
+                        <p className="text-gray-600 mt-2">alpharetta.ga.us/recreation-parks</p>
+                      </a>
+                      <div className="p-6 border-2 border-gray-200 rounded-xl text-center">
+                        <span className="font-bold text-gray-900 text-lg">Facility Manager</span>
+                        <p className="text-gray-600 mt-2">Available during operating hours for assistance</p>
+                      </div>
                     </div>
                   </div>
                 </div>
