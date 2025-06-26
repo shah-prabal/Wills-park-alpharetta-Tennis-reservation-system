@@ -942,9 +942,9 @@ function App() {
                 </label>
                 <input
                   type="date"
-                  value={selectedDate}
+                  value={bookingData.date}
                   onChange={(e) => {
-                    setSelectedDate(e.target.value);
+                    setBookingData({...bookingData, date: e.target.value});
                     fetchCourtAvailability(e.target.value);
                   }}
                   className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
