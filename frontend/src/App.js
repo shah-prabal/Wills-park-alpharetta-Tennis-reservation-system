@@ -389,10 +389,8 @@ function App() {
           <div className="mb-8">
             <nav className="flex space-x-8 border-b">
               <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setActiveTab('home');
-                }}
+                type="button"
+                onClick={() => setActiveTab('home')}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'home'
                     ? 'border-blue-500 text-blue-600'
@@ -402,10 +400,8 @@ function App() {
                 Home
               </button>
               <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setActiveTab('book');
-                }}
+                type="button"
+                onClick={() => setActiveTab('book')}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'book'
                     ? 'border-blue-500 text-blue-600'
@@ -415,10 +411,8 @@ function App() {
                 Book Courts
               </button>
               <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setActiveTab('availability');
-                }}
+                type="button"
+                onClick={() => setActiveTab('availability')}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'availability'
                     ? 'border-blue-500 text-blue-600'
@@ -428,10 +422,8 @@ function App() {
                 Check Availability
               </button>
               <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setActiveTab('reservations');
-                }}
+                type="button"
+                onClick={() => setActiveTab('reservations')}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'reservations'
                     ? 'border-blue-500 text-blue-600'
@@ -441,10 +433,8 @@ function App() {
                 My Reservations
               </button>
               <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setActiveTab('contact');
-                }}
+                type="button"
+                onClick={() => setActiveTab('contact')}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'contact'
                     ? 'border-blue-500 text-blue-600'
