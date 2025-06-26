@@ -797,7 +797,7 @@ function App() {
             </div>
           )}
 
-          {activeTab === 'book' && (
+          {currentTab === 'book' && (
             <div className="bg-white rounded-xl shadow-lg p-8">
               <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Book a Court</h2>
               
