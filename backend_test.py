@@ -343,6 +343,8 @@ def main():
     if staff_success:
         # Test admin endpoints
         tester.test_admin_endpoints()
+        # Test admin user editing functionality
+        tester.test_admin_user_editing()
     
     # Print results
     print(f"\n📊 Tests passed: {tester.tests_passed}/{tester.tests_run}")
