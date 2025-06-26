@@ -362,7 +362,7 @@ function App() {
                   e.preventDefault();
                   e.stopPropagation();
                   console.log('Home button clicked');
-                  switchTab('home');
+                  goToTab('home');
                 }}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   currentTab === 'home'
