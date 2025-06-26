@@ -869,8 +869,8 @@ function App() {
                       type="number"
                       min="1"
                       max="20"
-                      value={bookingForm.attendees}
-                      onChange={(e) => setBookingForm({...bookingForm, attendees: e.target.value})}
+                      value={bookingData.attendees}
+                      onChange={(e) => setBookingData({...bookingData, attendees: e.target.value})}
                       className="w-full max-w-xs px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg"
                       required
                     />
