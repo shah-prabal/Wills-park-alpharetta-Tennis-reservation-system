@@ -14,6 +14,46 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [notifications, setNotifications] = useState([]);
+
+  const fetchNotifications = async () => {
+    if (!token) return;
+    
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/notifications`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setNotifications(data.notifications || []);
+      }
+    } catch (err) {
+      console.error('Failed to fetch notifications:', err);
+    }
+  };
+
+  const markNotificationRead = async (notificationId) => {
+    try {
+      await fetch(`${BACKEND_URL}/api/notifications/${notificationId}/read`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      // Remove from unread notifications
+      setNotifications(notifications.filter(n => n.id !== notificationId));
+    } catch (err) {
+      console.error('Failed to mark notification as read:', err);
+    }
+  };
+
+  // Check for notifications when user logs in
+  useEffect(() => {
+    if (token && user && !user.is_staff) {
+      fetchNotifications();
+      // Check for new notifications every 30 seconds
+      const interval = setInterval(fetchNotifications, 30000);
+      return () => clearInterval(interval);
+    }
+  }, [token, user]);
 
   // Load Stripe
   useEffect(() => {
