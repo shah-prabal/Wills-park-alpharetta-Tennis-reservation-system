@@ -701,9 +701,9 @@ function App() {
                 </label>
                 <input
                   type="date"
-                  value={selectedDate}
+                  value={bookingData.date}
                   onChange={(e) => {
-                    setSelectedDate(e.target.value);
+                    setBookingData({...bookingData, date: e.target.value});
                     fetchCourtAvailability(e.target.value);
                   }}
                   className="form-input max-w-xs"
