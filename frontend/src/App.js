@@ -289,7 +289,7 @@ function App() {
     );
   };
 
-  // User Dashboard Component - BULLETPROOF VERSION
+  // User Dashboard Component - SIMPLE VERSION THAT WORKS
   const UserDashboard = () => {
     const [currentTab, setCurrentTab] = useState('home');
     const [bookingData, setBookingData] = useState({
@@ -300,21 +300,9 @@ function App() {
       attendees: 1
     });
 
-    // Simple tab switching - NO COMPLEX LOGIC
-    const switchTab = (tabName) => {
-      console.log('Switching to tab:', tabName);
+    // SIMPLE tab switching function
+    const goToTab = (tabName) => {
       setCurrentTab(tabName);
-      
-      // Load data based on tab
-      if (tabName === 'book' || tabName === 'home') {
-        fetchCourts();
-      }
-      if (tabName === 'reservations') {
-        fetchMyReservations();
-      }
-      if (tabName === 'availability') {
-        fetchCourtAvailability(bookingData.date);
-      }
     };
 
     const handleBooking = (e) => {
