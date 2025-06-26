@@ -392,7 +392,7 @@ function App() {
             <nav className="flex space-x-8 border-b">
               <button
                 type="button"
-                onClick={() => setActiveTab('home')}
+                onClick={() => handleTabChange('home')}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'home'
                     ? 'border-blue-500 text-blue-600'
@@ -403,7 +403,7 @@ function App() {
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab('book')}
+                onClick={() => handleTabChange('book')}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'book'
                     ? 'border-blue-500 text-blue-600'
@@ -414,7 +414,7 @@ function App() {
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab('availability')}
+                onClick={() => handleTabChange('availability')}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'availability'
                     ? 'border-blue-500 text-blue-600'
@@ -425,7 +425,7 @@ function App() {
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab('reservations')}
+                onClick={() => handleTabChange('reservations')}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'reservations'
                     ? 'border-blue-500 text-blue-600'
@@ -436,7 +436,7 @@ function App() {
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab('contact')}
+                onClick={() => handleTabChange('contact')}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   activeTab === 'contact'
                     ? 'border-blue-500 text-blue-600'
