@@ -765,49 +765,192 @@ function App() {
           )}
 
           {currentTab === 'availability' && (
-            <div className="card fade-in-up">
-              <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Court Availability</h2>
-              
-              <div className="mb-8">
-                <label className="form-label text-lg">
-                  Select Date
-                </label>
-                <input
-                  type="date"
-                  value={bookingData.date}
-                  onChange={(e) => {
-                    setBookingData({...bookingData, date: e.target.value});
-                    fetchCourtAvailability(e.target.value);
-                  }}
-                  className="form-input max-w-xs"
-                />
-              </div>
+            <div className="space-y-6">
+              <div className="bg-white rounded-xl shadow-lg p-8">
+                <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Real-Time Court Availability</h2>
+                
+                <div className="mb-8 max-w-md mx-auto">
+                  <label className="block text-lg font-semibold text-gray-700 mb-3 text-center">
+                    Select Date
+                  </label>
+                  <input
+                    type="date"
+                    value={bookingData.date}
+                    onChange={(e) => {
+                      setBookingData({...bookingData, date: e.target.value});
+                      fetchCourtAvailability(e.target.value);
+                    }}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg text-center"
+                  />
+                  <p className="text-center text-gray-600 mt-2">
+                    {new Date(bookingData.date).toLocaleDateString('en-US', { 
+                      weekday: 'long', 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </p>
+                </div>
 
-              <div className="court-grid">
-                {courts.filter(court => court.available).map(court => (
-                  <div key={court.id} className="card card-hover">
-                    <h3 className="font-bold text-gray-900 mb-4 text-xl">{court.name}</h3>
-                    <div className="space-y-3">
-                      {reservations
-                        .filter(res => res.court_id === court.id)
-                        .map(reservation => (
-                          <div key={reservation.id} className="bg-gradient-to-r from-red-100 to-red-200 p-4 rounded-xl border border-red-300 shadow-sm">
-                            <p className="text-red-800 font-semibold">
-                              {new Date(reservation.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - 
-                              {new Date(reservation.end_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                            </p>
-                            <p className="text-red-600 text-sm font-medium">Reserved</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {courts.filter(court => court.available).map(court => {
+                    const courtReservations = reservations.filter(res => res.court_id === court.id);
+                    const isFullyBooked = courtReservations.length >= 8; // Assuming 8 possible time slots per day
+                    
+                    return (
+                      <div 
+                        key={court.id} 
+                        className={`relative rounded-2xl p-6 border-2 transition-all duration-300 ${
+                          isFullyBooked 
+                            ? 'border-red-300 bg-red-50' 
+                            : courtReservations.length > 0 
+                              ? 'border-yellow-300 bg-yellow-50' 
+                              : 'border-green-300 bg-green-50'
+                        }`}
+                      >
+                        {/* Court Header */}
+                        <div className="text-center mb-4">
+                          <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 ${
+                            isFullyBooked 
+                              ? 'bg-red-200' 
+                              : courtReservations.length > 0 
+                                ? 'bg-yellow-200' 
+                                : 'bg-green-200'
+                          }`}>
+                            <span className="text-2xl">🎾</span>
                           </div>
-                        ))}
-                      {reservations.filter(res => res.court_id === court.id).length === 0 && (
-                        <div className="bg-gradient-to-r from-green-100 to-green-200 p-4 rounded-xl border border-green-300 shadow-sm">
-                          <p className="text-green-800 font-semibold">Available all day</p>
-                          <p className="text-green-600 text-sm">Ready for booking</p>
+                          <h3 className="font-bold text-gray-900 text-xl">{court.name}</h3>
+                          <div className={`inline-block px-3 py-1 rounded-full text-sm font-semibold mt-2 ${
+                            isFullyBooked 
+                              ? 'bg-red-200 text-red-800' 
+                              : courtReservations.length > 0 
+                                ? 'bg-yellow-200 text-yellow-800' 
+                                : 'bg-green-200 text-green-800'
+                          }`}>
+                            {isFullyBooked ? 'Fully Booked' : courtReservations.length > 0 ? 'Partially Booked' : 'Available'}
+                          </div>
                         </div>
-                      )}
+
+                        {/* Availability Summary */}
+                        <div className="text-center mb-4">
+                          <div className="text-2xl font-bold text-gray-800">
+                            {8 - courtReservations.length}/8
+                          </div>
+                          <div className="text-sm text-gray-600">Time Slots Available</div>
+                        </div>
+
+                        {/* Time Slots */}
+                        <div className="space-y-2">
+                          <h4 className="font-semibold text-gray-800 text-sm mb-3">
+                            {courtReservations.length > 0 ? 'Reserved Times:' : 'No Reservations Today!'}
+                          </h4>
+                          
+                          {courtReservations.length > 0 ? (
+                            <div className="space-y-2 max-h-32 overflow-y-auto">
+                              {courtReservations.map(reservation => (
+                                <div 
+                                  key={reservation.id} 
+                                  className="bg-white p-3 rounded-lg border border-gray-200 shadow-sm"
+                                >
+                                  <div className="flex justify-between items-center">
+                                    <div>
+                                      <div className="font-semibold text-gray-800 text-sm">
+                                        {new Date(reservation.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - 
+                                        {new Date(reservation.end_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                                      </div>
+                                      <div className="text-xs text-gray-600">
+                                        {reservation.attendees} player{reservation.attendees > 1 ? 's' : ''}
+                                      </div>
+                                    </div>
+                                    <div className={`px-2 py-1 rounded text-xs font-semibold ${
+                                      reservation.status === 'confirmed' 
+                                        ? 'bg-red-100 text-red-700' 
+                                        : 'bg-yellow-100 text-yellow-700'
+                                    }`}>
+                                      {reservation.status === 'confirmed' ? 'Confirmed' : 'Pending'}
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="text-center py-4">
+                              <div className="text-4xl mb-2">🎉</div>
+                              <div className="text-sm text-gray-600">
+                                Perfect! This court is completely free today.
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => goToTab('book')}
+                                className="mt-3 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors"
+                              >
+                                Book Now
+                              </button>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Peak Hours Indicator */}
+                        {courtReservations.length > 4 && (
+                          <div className="mt-4 p-2 bg-orange-100 rounded-lg">
+                            <div className="text-center text-orange-800 text-xs font-semibold">
+                              🔥 Popular Day - Limited Availability
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Overall Summary */}
+                <div className="mt-8 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Today's Summary</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-green-600">
+                        {courts.filter(court => court.available && reservations.filter(res => res.court_id === court.id).length === 0).length}
+                      </div>
+                      <div className="text-sm text-gray-600">Completely Free Courts</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-blue-600">
+                        {reservations.length}
+                      </div>
+                      <div className="text-sm text-gray-600">Total Reservations</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-purple-600">
+                        {32 - reservations.length}
+                      </div>
+                      <div className="text-sm text-gray-600">Available Time Slots</div>
                     </div>
                   </div>
-                ))}
+                </div>
+
+                {/* Quick Actions */}
+                <div className="mt-6 text-center">
+                  <button
+                    type="button"
+                    onClick={() => goToTab('book')}
+                    className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all duration-300 shadow-lg mr-4"
+                  >
+                    Book Available Court
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const tomorrow = new Date();
+                      tomorrow.setDate(tomorrow.getDate() + 1);
+                      const tomorrowStr = tomorrow.toISOString().split('T')[0];
+                      setBookingData({...bookingData, date: tomorrowStr});
+                      fetchCourtAvailability(tomorrowStr);
+                    }}
+                    className="bg-gray-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-gray-700 transition-all duration-300 shadow-lg"
+                  >
+                    Check Tomorrow
+                  </button>
+                </div>
               </div>
             </div>
           )}
