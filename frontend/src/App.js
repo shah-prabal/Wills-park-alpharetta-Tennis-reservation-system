@@ -911,9 +911,9 @@ function App() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="text-center">
                       <div className="text-2xl font-bold text-green-600">
-                        {courts.filter(court => court.available && reservations.filter(res => res.court_id === court.id).length === 0).length}
+                        {courts.filter(court => court.available).length - courts.filter(court => court.available && reservations.filter(res => res.court_id === court.id).length >= 8).length}
                       </div>
-                      <div className="text-sm text-gray-600">Completely Free Courts</div>
+                      <div className="text-sm text-gray-600">Courts with Availability</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-blue-600">
@@ -923,7 +923,7 @@ function App() {
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-purple-600">
-                        {32 - reservations.length}
+                        {(courts.filter(court => court.available).length * 8) - reservations.length}
                       </div>
                       <div className="text-sm text-gray-600">Available Time Slots</div>
                     </div>
