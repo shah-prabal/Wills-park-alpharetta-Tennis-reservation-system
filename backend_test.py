@@ -223,6 +223,7 @@ class TennisCourtAPITester:
             return False
             
         user_id = test_user['id']
+        print(f"Testing user editing for user: {test_user['username']} (ID: {user_id})")
         
         # Test updating resident status
         current_resident_status = test_user.get('is_resident', False)
@@ -268,6 +269,7 @@ class TennisCourtAPITester:
             200
         )
         
+        verification_passed = False
         if success4 and 'users' in response4:
             updated_users = response4['users']
             updated_user = next((u for u in updated_users if u['id'] == user_id), None)
@@ -278,14 +280,20 @@ class TennisCourtAPITester:
                 if updated_user.get('is_resident') != new_resident_status:
                     print(f"❌ Resident status change not persisted. Expected: {new_resident_status}, Got: {updated_user.get('is_resident')}")
                     verification_passed = False
+                else:
+                    print(f"✅ Resident status change persisted correctly: {updated_user.get('is_resident')}")
                     
                 if updated_user.get('is_alta_member') != new_alta_status:
                     print(f"❌ ALTA member status change not persisted. Expected: {new_alta_status}, Got: {updated_user.get('is_alta_member')}")
                     verification_passed = False
+                else:
+                    print(f"✅ ALTA member status change persisted correctly: {updated_user.get('is_alta_member')}")
                     
                 if updated_user.get('is_usta_member') != new_usta_status:
                     print(f"❌ USTA member status change not persisted. Expected: {new_usta_status}, Got: {updated_user.get('is_usta_member')}")
                     verification_passed = False
+                else:
+                    print(f"✅ USTA member status change persisted correctly: {updated_user.get('is_usta_member')}")
                 
                 if verification_passed:
                     print("✅ All user status changes persisted correctly")
