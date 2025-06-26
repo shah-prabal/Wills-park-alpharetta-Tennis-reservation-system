@@ -799,19 +799,19 @@ function App() {
           )}
 
           {activeTab === 'book' && (
-            <div className="card fade-in-up">
+            <div className="bg-white rounded-xl shadow-lg p-8">
               <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Book a Court</h2>
               
               <form onSubmit={handleBooking} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
-                    <label className="form-label text-lg">
+                    <label className="block text-lg font-semibold text-gray-700 mb-3">
                       Court Selection
                     </label>
                     <select
                       value={bookingForm.courtId}
                       onChange={(e) => setBookingForm({...bookingForm, courtId: e.target.value})}
-                      className="form-input text-lg"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg"
                       required
                     >
                       <option value="">Select a court</option>
@@ -824,46 +824,46 @@ function App() {
                   </div>
 
                   <div>
-                    <label className="form-label text-lg">
+                    <label className="block text-lg font-semibold text-gray-700 mb-3">
                       Date
                     </label>
                     <input
                       type="date"
                       value={bookingForm.date}
                       onChange={(e) => setBookingForm({...bookingForm, date: e.target.value})}
-                      className="form-input text-lg"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="form-label text-lg">
+                    <label className="block text-lg font-semibold text-gray-700 mb-3">
                       Start Time
                     </label>
                     <input
                       type="time"
                       value={bookingForm.startTime}
                       onChange={(e) => setBookingForm({...bookingForm, startTime: e.target.value})}
-                      className="form-input text-lg"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="form-label text-lg">
+                    <label className="block text-lg font-semibold text-gray-700 mb-3">
                       End Time
                     </label>
                     <input
                       type="time"
                       value={bookingForm.endTime}
                       onChange={(e) => setBookingForm({...bookingForm, endTime: e.target.value})}
-                      className="form-input text-lg"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg"
                       required
                     />
                   </div>
 
                   <div className="md:col-span-2">
-                    <label className="form-label text-lg">
+                    <label className="block text-lg font-semibold text-gray-700 mb-3">
                       Number of Attendees
                     </label>
                     <input
@@ -872,13 +872,13 @@ function App() {
                       max="20"
                       value={bookingForm.attendees}
                       onChange={(e) => setBookingForm({...bookingForm, attendees: e.target.value})}
-                      className="form-input text-lg max-w-xs"
+                      className="w-full max-w-xs px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg"
                       required
                     />
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl p-8 shadow-md">
+                <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-6">
                   <h3 className="font-bold text-blue-900 mb-4 text-xl">💰 Pricing Information</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
@@ -901,7 +901,7 @@ function App() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-200 rounded-2xl p-8 shadow-md">
+                <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-6">
                   <h3 className="font-bold text-yellow-900 mb-4 text-xl">📋 Booking Rules</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <ul className="text-yellow-800 space-y-2">
@@ -918,11 +918,11 @@ function App() {
                 <button
                   type="submit"
                   disabled={loading || !calculatePrice()}
-                  className="btn-primary w-full text-xl py-4 btn-hover-effect"
+                  className="w-full bg-blue-600 text-white py-4 px-6 rounded-xl hover:bg-blue-700 disabled:opacity-50 font-bold text-xl transition-all"
                 >
                   {loading ? (
                     <div className="flex items-center justify-center">
-                      <div className="spinner mr-3"></div>
+                      <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
                       Processing...
                     </div>
                   ) : (
