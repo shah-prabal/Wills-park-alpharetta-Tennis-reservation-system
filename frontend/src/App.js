@@ -751,7 +751,7 @@ function App() {
                   <p className="text-gray-500 text-xl mb-6">No reservations found.</p>
                   <button
                     type="button"
-                    onClick={() => setActiveTab('book')}
+                    onClick={() => setCurrentTab('book')}
                     className="btn-primary"
                   >
                     Book Your First Court
