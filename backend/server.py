@@ -266,6 +266,7 @@ async def create_reservation(request: ReservationRequest, user: dict = Depends(g
         payment_intent = stripe.PaymentIntent.create(
             amount=int(total_cost * 100),  # Convert to cents
             currency='usd',
+            automatic_payment_methods={'enabled': True},
             metadata={
                 'user_id': user["id"],
                 'court_id': str(request.court_id),
