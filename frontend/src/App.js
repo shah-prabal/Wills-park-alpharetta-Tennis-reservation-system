@@ -28,7 +28,22 @@ function App() {
   // Check authentication on load
   useEffect(() => {
     if (token) {
-      fetchUserProfile();
+      // Simple check without causing re-renders
+      const checkAuth = async () => {
+        try {
+          const response = await fetch(`${BACKEND_URL}/api/courts`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (!response.ok) {
+            localStorage.removeItem('token');
+            setToken(null);
+            setCurrentPage('login');
+          }
+        } catch (err) {
+          console.error('Auth check failed:', err);
+        }
+      };
+      checkAuth();
     }
   }, [token]);
 
