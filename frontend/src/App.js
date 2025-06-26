@@ -493,7 +493,7 @@ function App() {
                   </div>
                   <div className="text-4xl font-bold text-blue-600 mb-3">4</div>
                   <div className="text-gray-800 font-semibold text-lg mb-2">Available Courts</div>
-                  <div className="text-gray-600">Courts 1-4 ready for professional play</div>
+                  <div className="text-gray-600">Courts 1-4 can be reserved for play</div>
                 </div>
                 <div className="bg-white rounded-xl shadow-lg p-8 text-center">
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -588,8 +588,7 @@ function App() {
                 <div className="bg-white p-8">
                   <h2 className="text-3xl font-bold text-gray-900 mb-4">Wills Park Tennis Complex</h2>
                   <p className="text-gray-700 text-lg leading-relaxed">
-                    Our premium tennis facility features four professional courts designed to meet the highest standards. 
-                    Located in the beautiful Wills Park, we offer an unparalleled tennis experience in Alpharetta.
+                    Our premium tennis facility features six (4 of which can be reserved) professional courts designed to meet the highest standards. Located in the beautiful Wills Park, we offer an unparalleled tennis experience in Alpharetta.
                   </p>
                 </div>
               </div>
