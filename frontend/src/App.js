@@ -459,21 +459,15 @@ function App() {
                   </p>
                   <div className="flex flex-wrap gap-4">
                     <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setActiveTab('book');
-                      }}
+                      type="button"
+                      onClick={() => setActiveTab('book')}
                       className="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 btn-hover-effect"
                     >
                       Book a Court Now
                     </button>
                     <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setActiveTab('availability');
-                      }}
+                      type="button"
+                      onClick={() => setActiveTab('availability')}
                       className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                     >
                       Check Availability
