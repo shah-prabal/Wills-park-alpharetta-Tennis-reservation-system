@@ -349,3 +349,12 @@ textarea:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Disable problematic animations that cause glitching */
+.fade-in-up {
+  /* Remove animation for stability */
+}
+
+.slide-in-left {
+  /* Remove animation for stability */
+}
