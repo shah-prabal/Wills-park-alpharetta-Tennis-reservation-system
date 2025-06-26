@@ -372,6 +372,43 @@ async def toggle_court_maintenance(court_id: int, user: dict = Depends(get_curre
     
     return {"message": f"Court {court_id} {'enabled' if new_status else 'disabled'}"}
 
+@app.put("/api/admin/users/{user_id}")
+async def update_user_status(user_id: str, request: dict, user: dict = Depends(get_current_user)):
+    if not user["is_staff"]:
+        raise HTTPException(status_code=403, detail="Staff access required")
+    
+    # Find the user to update
+    target_user = db.users.find_one({"id": user_id})
+    if not target_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Prevent modifying staff accounts
+    if target_user.get("is_staff", False):
+        raise HTTPException(status_code=403, detail="Cannot modify staff accounts")
+    
+    # Update allowed fields
+    update_fields = {}
+    if "is_resident" in request:
+        update_fields["is_resident"] = bool(request["is_resident"])
+    if "is_alta_member" in request:
+        update_fields["is_alta_member"] = bool(request["is_alta_member"])
+    if "is_usta_member" in request:
+        update_fields["is_usta_member"] = bool(request["is_usta_member"])
+    
+    if not update_fields:
+        raise HTTPException(status_code=400, detail="No valid fields to update")
+    
+    # Update the user
+    result = db.users.update_one(
+        {"id": user_id},
+        {"$set": update_fields}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=400, detail="User update failed")
+    
+    return {"message": "User updated successfully", "updated_fields": update_fields}
+
 @app.get("/api/admin/analytics")
 async def get_analytics(user: dict = Depends(get_current_user)):
     if not user["is_staff"]:
