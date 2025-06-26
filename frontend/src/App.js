@@ -1512,11 +1512,31 @@ function App() {
                     <div className="space-y-2">
                       <button 
                         type="button"
-                        onClick={() => {
+                        onClick={async () => {
                           const message = prompt('Enter notification message:');
-                          if (message) {
-                            alert(`Notification sent to all users: "${message}"`);
-                            // In real app, this would send actual notifications
+                          if (message && message.trim()) {
+                            try {
+                              const response = await fetch(`${BACKEND_URL}/api/admin/notifications`, {
+                                method: 'POST',
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                  'Authorization': `Bearer ${token}`
+                                },
+                                body: JSON.stringify({ message: message.trim() })
+                              });
+                              
+                              if (response.ok) {
+                                setSuccess(`Notification sent to all users: "${message}"`);
+                                setTimeout(() => setSuccess(''), 3000);
+                              } else {
+                                const errorData = await response.json();
+                                setError(errorData.detail || 'Failed to send notification');
+                                setTimeout(() => setError(''), 3000);
+                              }
+                            } catch (err) {
+                              setError('Failed to send notification');
+                              setTimeout(() => setError(''), 3000);
+                            }
                           }
                         }}
                         className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
