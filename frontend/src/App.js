@@ -447,7 +447,7 @@ function App() {
             </nav>
           </div>
 
-          {activeTab === 'home' && (
+          {currentTab === 'home' && (
             <div className="space-y-8">
               {/* Hero Section with YOUR tennis courts image */}
               <div 
