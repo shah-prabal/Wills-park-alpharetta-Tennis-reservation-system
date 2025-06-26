@@ -744,7 +744,7 @@ function App() {
                   <p className="text-gray-500 text-xl mb-6">No reservations found.</p>
                   <button
                     type="button"
-                    onClick={() => switchTab('book')}
+                    onClick={() => goToTab('book')}
                     className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all"
                   >
                     Book Your First Court
