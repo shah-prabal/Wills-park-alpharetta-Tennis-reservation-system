@@ -543,7 +543,7 @@ function App() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <button
                     type="button"
-                    onClick={() => switchTab('reservations')}
+                    onClick={() => goToTab('reservations')}
                     className="flex items-center p-6 border-2 border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all duration-300"
                   >
                     <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-6">
