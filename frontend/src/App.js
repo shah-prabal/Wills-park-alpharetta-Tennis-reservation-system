@@ -777,6 +777,8 @@ function App() {
                     type="date"
                     value={bookingData.date}
                     onChange={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
                       setBookingData({...bookingData, date: e.target.value});
                       fetchCourtAvailability(e.target.value);
                     }}
