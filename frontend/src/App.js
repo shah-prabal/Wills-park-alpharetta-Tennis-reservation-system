@@ -854,8 +854,8 @@ function App() {
                     </label>
                     <input
                       type="time"
-                      value={bookingForm.endTime}
-                      onChange={(e) => setBookingForm({...bookingForm, endTime: e.target.value})}
+                      value={bookingData.endTime}
+                      onChange={(e) => setBookingData({...bookingData, endTime: e.target.value})}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg"
                       required
                     />
