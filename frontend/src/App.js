@@ -1066,6 +1066,11 @@ function App() {
       }
     };
 
+    const handleAdminTabChange = (tabName) => {
+      console.log('Admin changing tab to:', tabName);
+      setActiveTab(tabName);
+    };
+
     const updateUserStatus = async (userId, field, newValue, userName) => {
       const confirmMessage = `Are you sure you want to change this user's info?\n\nUser: ${userName}\nChanging: ${field}\nNew Value: ${newValue ? 'Yes' : 'No'}`;
       
