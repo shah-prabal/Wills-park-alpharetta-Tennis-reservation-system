@@ -1066,9 +1066,35 @@ function App() {
       }
     };
 
-    const handleAdminTabChange = (tabName) => {
-      console.log('Admin changing tab to:', tabName);
-      setActiveTab(tabName);
+    const updateUserStatus = async (userId, field, newValue, userName) => {
+      const confirmMessage = `Are you sure you want to change this user's info?\n\nUser: ${userName}\nChanging: ${field}\nNew Value: ${newValue ? 'Yes' : 'No'}`;
+      
+      if (window.confirm(confirmMessage)) {
+        try {
+          const response = await fetch(`${BACKEND_URL}/api/admin/users/${userId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ [field]: newValue })
+          });
+
+          if (response.ok) {
+            // Refresh admin data to show updated values
+            fetchAdminData();
+            setSuccess(`User ${field} updated successfully`);
+            setTimeout(() => setSuccess(''), 3000);
+          } else {
+            const errorData = await response.json();
+            setError(errorData.detail || 'Failed to update user');
+            setTimeout(() => setError(''), 3000);
+          }
+        } catch (err) {
+          setError('Failed to update user');
+          setTimeout(() => setError(''), 3000);
+        }
+      }
     };
 
     return (
