@@ -372,6 +372,52 @@ async def toggle_court_maintenance(court_id: int, user: dict = Depends(get_curre
     
     return {"message": f"Court {court_id} {'enabled' if new_status else 'disabled'}"}
 
+@app.post("/api/admin/notifications")
+async def send_notification(request: dict, user: dict = Depends(get_current_user)):
+    if not user["is_staff"]:
+        raise HTTPException(status_code=403, detail="Staff access required")
+    
+    message = request.get("message", "").strip()
+    if not message:
+        raise HTTPException(status_code=400, detail="Message is required")
+    
+    # Create notification document
+    notification = {
+        "id": str(uuid.uuid4()),
+        "message": message,
+        "sender": user["username"],
+        "created_at": datetime.utcnow().isoformat(),
+        "read_by": []  # Track who has read this notification
+    }
+    
+    # Store notification in database
+    db.notifications.insert_one(notification)
+    
+    return {"message": "Notification sent successfully", "notification_id": notification["id"]}
+
+@app.get("/api/notifications")
+async def get_notifications(user: dict = Depends(get_current_user)):
+    # Get all notifications that this user hasn't read yet
+    notifications = list(db.notifications.find(
+        {"read_by": {"$ne": user["id"]}},
+        {"_id": 0}
+    ).sort("created_at", -1).limit(10))
+    
+    return {"notifications": notifications}
+
+@app.post("/api/notifications/{notification_id}/read")
+async def mark_notification_read(notification_id: str, user: dict = Depends(get_current_user)):
+    # Mark notification as read by this user
+    result = db.notifications.update_one(
+        {"id": notification_id},
+        {"$addToSet": {"read_by": user["id"]}}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Notification not found")
+    
+    return {"message": "Notification marked as read"}
+
 @app.put("/api/admin/users/{user_id}")
 async def update_user_status(user_id: str, request: dict, user: dict = Depends(get_current_user)):
     if not user["is_staff"]:
