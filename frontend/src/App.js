@@ -752,11 +752,8 @@ function App() {
                   </div>
                   <p className="text-gray-500 text-xl mb-6">No reservations found.</p>
                   <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setActiveTab('book');
-                    }}
+                    type="button"
+                    onClick={() => setActiveTab('book')}
                     className="btn-primary"
                   >
                     Book Your First Court
