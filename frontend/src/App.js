@@ -326,15 +326,17 @@ function App() {
     });
 
     useEffect(() => {
-      fetchCourts();
-      fetchMyReservations();
-    }, []);
+      if (activeTab === 'home' || activeTab === 'book' || activeTab === 'reservations') {
+        fetchCourts();
+        fetchMyReservations();
+      }
+    }, [activeTab]);
 
     useEffect(() => {
-      if (activeTab === 'book') {
+      if (activeTab === 'availability' && bookingForm.date) {
         fetchCourtAvailability(bookingForm.date);
       }
-    }, [bookingForm.date, activeTab]);
+    }, [activeTab, bookingForm.date]);
 
     const handleBooking = (e) => {
       e.preventDefault();
