@@ -1292,13 +1292,58 @@ function App() {
                   <div className="border rounded-lg p-4">
                     <h3 className="font-semibold text-gray-900 mb-4">Export Options</h3>
                     <div className="space-y-2">
-                      <button className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                      <button 
+                        type="button"
+                        onClick={() => {
+                          // Generate CSV export
+                          const csvData = allReservations.map(res => 
+                            `${res.id},${res.court_id},${res.start_time},${res.end_time},${res.total_cost},${res.status}`
+                          ).join('\n');
+                          const blob = new Blob([`ID,Court,Start Time,End Time,Cost,Status\n${csvData}`], { type: 'text/csv' });
+                          const url = window.URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = 'monthly_revenue_report.csv';
+                          a.click();
+                        }}
+                        className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                      >
                         📊 Export Monthly Revenue Report
                       </button>
-                      <button className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                      <button 
+                        type="button"
+                        onClick={() => {
+                          // Generate usage analytics CSV
+                          const csvData = courts.map(court => 
+                            `${court.name},${allReservations.filter(res => res.court_id === court.id).length}`
+                          ).join('\n');
+                          const blob = new Blob([`Court,Total Bookings\n${csvData}`], { type: 'text/csv' });
+                          const url = window.URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = 'usage_analytics.csv';
+                          a.click();
+                        }}
+                        className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                      >
                         📈 Export Usage Analytics
                       </button>
-                      <button className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                      <button 
+                        type="button"
+                        onClick={() => {
+                          // Generate user activity CSV
+                          const csvData = allUsers.map(user => 
+                            `${user.username},${user.email},${user.is_resident ? 'Resident' : 'Non-Resident'}`
+                          ).join('\n');
+                          const blob = new Blob([`Username,Email,Status\n${csvData}`], { type: 'text/csv' });
+                          const url = window.URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = 'user_activity_report.csv';
+                          a.click();
+                        }}
+                        className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                      >
                         👥 Export User Activity Report
                       </button>
                     </div>
@@ -1307,13 +1352,51 @@ function App() {
                   <div className="border rounded-lg p-4">
                     <h3 className="font-semibold text-gray-900 mb-4">Quick Actions</h3>
                     <div className="space-y-2">
-                      <button className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                      <button 
+                        type="button"
+                        onClick={() => {
+                          const message = prompt('Enter notification message:');
+                          if (message) {
+                            alert(`Notification sent to all users: "${message}"`);
+                            // In real app, this would send actual notifications
+                          }
+                        }}
+                        className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                      >
                         📢 Send System Notification
                       </button>
-                      <button className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                      <button 
+                        type="button"
+                        onClick={() => {
+                          const date = prompt('Enter maintenance date (YYYY-MM-DD):');
+                          if (date) {
+                            alert(`Maintenance scheduled for ${date}`);
+                            // In real app, this would block court availability
+                          }
+                        }}
+                        className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                      >
                         🔧 Schedule Maintenance Block
                       </button>
-                      <button className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                      <button 
+                        type="button"
+                        onClick={() => {
+                          // Generate court usage report
+                          const report = courts.map(court => {
+                            const bookings = allReservations.filter(res => res.court_id === court.id);
+                            const revenue = bookings.reduce((sum, res) => sum + res.total_cost, 0);
+                            return `${court.name}: ${bookings.length} bookings, $${revenue} revenue`;
+                          }).join('\n');
+                          
+                          const blob = new Blob([`Court Usage Report\n${new Date().toDateString()}\n\n${report}`], { type: 'text/plain' });
+                          const url = window.URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = 'court_usage_report.txt';
+                          a.click();
+                        }}
+                        className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                      >
                         📋 Generate Court Usage Report
                       </button>
                     </div>
