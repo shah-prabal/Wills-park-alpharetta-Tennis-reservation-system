@@ -10,7 +10,7 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [courts, setCourts] = useState([]);
   const [reservations, setReservations] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
