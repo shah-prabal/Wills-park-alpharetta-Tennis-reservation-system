@@ -773,17 +773,19 @@ function App() {
                   <label className="block text-lg font-semibold text-gray-700 mb-3 text-center">
                     Select Date
                   </label>
-                  <input
-                    type="date"
-                    value={bookingData.date}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setBookingData({...bookingData, date: e.target.value});
-                      fetchCourtAvailability(e.target.value);
-                    }}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg text-center"
-                  />
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <input
+                      type="date"
+                      value={bookingData.date}
+                      onChange={(e) => {
+                        console.log('Date changed to:', e.target.value);
+                        const newDate = e.target.value;
+                        setBookingData(prev => ({...prev, date: newDate}));
+                        fetchCourtAvailability(newDate);
+                      }}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg text-center"
+                    />
+                  </div>
                   <p className="text-center text-gray-600 mt-2">
                     {new Date(bookingData.date).toLocaleDateString('en-US', { 
                       weekday: 'long', 
@@ -792,6 +794,13 @@ function App() {
                       day: 'numeric' 
                     })}
                   </p>
+                  
+                  {/* Debug info */}
+                  <div className="mt-4 p-3 bg-gray-100 rounded text-sm">
+                    <p>Debug: Courts available: {courts.filter(court => court.available).length}</p>
+                    <p>Debug: Total reservations: {reservations.length}</p>
+                    <p>Debug: Current date: {bookingData.date}</p>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
