@@ -1249,6 +1249,18 @@ function App() {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-xl font-bold mb-6">User Management</h2>
               
+              {error && (
+                <div className="mb-4 p-3 bg-red-100 border border-red-300 rounded-lg">
+                  <p className="text-red-700">{error}</p>
+                </div>
+              )}
+              
+              {success && (
+                <div className="mb-4 p-3 bg-green-100 border border-green-300 rounded-lg">
+                  <p className="text-green-700">{success}</p>
+                </div>
+              )}
+              
               <div className="overflow-x-auto">
                 <table className="w-full table-auto">
                   <thead>
@@ -1258,47 +1270,63 @@ function App() {
                       <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Resident</th>
                       <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">ALTA</th>
                       <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">USTA</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Staff</th>
                     </tr>
                   </thead>
                   <tbody>
                     {allUsers.map(user => (
-                      <tr key={user.id} className="border-t">
-                        <td className="px-4 py-3">{user.username}</td>
+                      <tr key={user.id} className="border-t hover:bg-gray-50">
+                        <td className="px-4 py-3 font-medium">{user.username}</td>
                         <td className="px-4 py-3">{user.email}</td>
                         <td className="px-4 py-3">
-                          <span className={`px-2 py-1 rounded-full text-xs ${
-                            user.is_resident ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                          }`}>
+                          <button
+                            type="button"
+                            onClick={() => updateUserStatus(user.id, 'is_resident', !user.is_resident, user.username)}
+                            className={`px-3 py-1 rounded-full text-xs font-bold cursor-pointer transition-all duration-200 ${
+                              user.is_resident 
+                                ? 'bg-green-100 text-green-800 hover:bg-green-200' 
+                                : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                            }`}
+                          >
                             {user.is_resident ? 'Yes' : 'No'}
-                          </span>
+                          </button>
                         </td>
                         <td className="px-4 py-3">
-                          <span className={`px-2 py-1 rounded-full text-xs ${
-                            user.is_alta_member ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
-                          }`}>
+                          <button
+                            type="button"
+                            onClick={() => updateUserStatus(user.id, 'is_alta_member', !user.is_alta_member, user.username)}
+                            className={`px-3 py-1 rounded-full text-xs font-bold cursor-pointer transition-all duration-200 ${
+                              user.is_alta_member 
+                                ? 'bg-blue-100 text-blue-800 hover:bg-blue-200' 
+                                : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                            }`}
+                          >
                             {user.is_alta_member ? 'Yes' : 'No'}
-                          </span>
+                          </button>
                         </td>
                         <td className="px-4 py-3">
-                          <span className={`px-2 py-1 rounded-full text-xs ${
-                            user.is_usta_member ? 'bg-purple-100 text-purple-800' : 'bg-gray-100 text-gray-800'
-                          }`}>
+                          <button
+                            type="button"
+                            onClick={() => updateUserStatus(user.id, 'is_usta_member', !user.is_usta_member, user.username)}
+                            className={`px-3 py-1 rounded-full text-xs font-bold cursor-pointer transition-all duration-200 ${
+                              user.is_usta_member 
+                                ? 'bg-purple-100 text-purple-800 hover:bg-purple-200' 
+                                : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                            }`}
+                          >
                             {user.is_usta_member ? 'Yes' : 'No'}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <span className={`px-2 py-1 rounded-full text-xs ${
-                            user.is_staff ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
-                          }`}>
-                            {user.is_staff ? 'Yes' : 'No'}
-                          </span>
+                          </button>
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
+              
+              {allUsers.length === 0 && (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">No users found.</p>
+                </div>
+              )}
             </div>
           )}
 
