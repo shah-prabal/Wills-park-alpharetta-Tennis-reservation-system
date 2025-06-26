@@ -461,7 +461,7 @@ function App() {
                   <div className="flex flex-wrap gap-4">
                     <button
                       type="button"
-                      onClick={() => switchTab('book')}
+                      onClick={() => goToTab('book')}
                       className="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all duration-300 shadow-lg"
                     >
                       Book a Court Now
