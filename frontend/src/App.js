@@ -941,7 +941,9 @@ function App() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
                       const tomorrow = new Date();
                       tomorrow.setDate(tomorrow.getDate() + 1);
                       const tomorrowStr = tomorrow.toISOString().split('T')[0];
