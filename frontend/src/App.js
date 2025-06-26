@@ -1153,52 +1153,7 @@ function App() {
             </div>
           )}
 
-          {currentTab === 'availability' && (
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold mb-6">Court Availability</h2>
-              
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Select Date
-                </label>
-                <input
-                  type="date"
-                  value={bookingData.date}
-                  onChange={(e) => {
-                    setBookingData({...bookingData, date: e.target.value});
-                    fetchCourtAvailability(e.target.value);
-                  }}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                />
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {courts.filter(court => court.available).map(court => (
-                  <div key={court.id} className="border rounded-lg p-4">
-                    <h3 className="font-semibold text-gray-900 mb-2">{court.name}</h3>
-                    <div className="space-y-2">
-                      {reservations
-                        .filter(res => res.court_id === court.id)
-                        .map(reservation => (
-                          <div key={reservation.id} className="bg-red-100 p-2 rounded text-sm">
-                            <p className="text-red-800">
-                              {new Date(reservation.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - 
-                              {new Date(reservation.end_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                            </p>
-                            <p className="text-red-600 text-xs">Reserved</p>
-                          </div>
-                        ))}
-                      {reservations.filter(res => res.court_id === court.id).length === 0 && (
-                        <div className="bg-green-100 p-2 rounded text-sm">
-                          <p className="text-green-800">Available all day</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
 
           {currentTab === 'reservations' && (
             <div className="bg-white rounded-xl shadow-lg p-6">
