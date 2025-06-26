@@ -192,6 +192,129 @@ class TennisCourtAPITester:
             print(f"Analytics: {json.dumps(response3, indent=2)}")
             return True
         return False
+        
+    def test_admin_user_editing(self):
+        """Test admin user editing functionality"""
+        if not self.user or not self.user.get('is_staff', False):
+            print("⚠️ Skipping admin user editing test - current user is not staff")
+            return False
+            
+        # First get all users
+        success, response = self.run_test(
+            "Admin - Get Users for Editing",
+            "GET",
+            "admin/users",
+            200
+        )
+        
+        if not success or 'users' not in response:
+            print("❌ Failed to get users for editing test")
+            return False
+            
+        users = response['users']
+        if not users:
+            print("❌ No users available for testing user editing")
+            return False
+            
+        # Find a non-staff user to edit
+        test_user = next((user for user in users if not user.get('is_staff', False)), None)
+        if not test_user:
+            print("❌ No non-staff users available for testing user editing")
+            return False
+            
+        user_id = test_user['id']
+        
+        # Test updating resident status
+        current_resident_status = test_user.get('is_resident', False)
+        new_resident_status = not current_resident_status
+        
+        success1, response1 = self.run_test(
+            "Admin - Update User Resident Status",
+            "PUT",
+            f"admin/users/{user_id}",
+            200,
+            data={"is_resident": new_resident_status}
+        )
+        
+        # Test updating ALTA member status
+        current_alta_status = test_user.get('is_alta_member', False)
+        new_alta_status = not current_alta_status
+        
+        success2, response2 = self.run_test(
+            "Admin - Update User ALTA Status",
+            "PUT",
+            f"admin/users/{user_id}",
+            200,
+            data={"is_alta_member": new_alta_status}
+        )
+        
+        # Test updating USTA member status
+        current_usta_status = test_user.get('is_usta_member', False)
+        new_usta_status = not current_usta_status
+        
+        success3, response3 = self.run_test(
+            "Admin - Update User USTA Status",
+            "PUT",
+            f"admin/users/{user_id}",
+            200,
+            data={"is_usta_member": new_usta_status}
+        )
+        
+        # Verify changes persisted by getting the user again
+        success4, response4 = self.run_test(
+            "Admin - Verify User Changes",
+            "GET",
+            "admin/users",
+            200
+        )
+        
+        if success4 and 'users' in response4:
+            updated_users = response4['users']
+            updated_user = next((u for u in updated_users if u['id'] == user_id), None)
+            
+            if updated_user:
+                verification_passed = True
+                
+                if updated_user.get('is_resident') != new_resident_status:
+                    print(f"❌ Resident status change not persisted. Expected: {new_resident_status}, Got: {updated_user.get('is_resident')}")
+                    verification_passed = False
+                    
+                if updated_user.get('is_alta_member') != new_alta_status:
+                    print(f"❌ ALTA member status change not persisted. Expected: {new_alta_status}, Got: {updated_user.get('is_alta_member')}")
+                    verification_passed = False
+                    
+                if updated_user.get('is_usta_member') != new_usta_status:
+                    print(f"❌ USTA member status change not persisted. Expected: {new_usta_status}, Got: {updated_user.get('is_usta_member')}")
+                    verification_passed = False
+                
+                if verification_passed:
+                    print("✅ All user status changes persisted correctly")
+            else:
+                print("❌ Could not find updated user in response")
+                verification_passed = False
+        else:
+            print("❌ Failed to verify user changes")
+            verification_passed = False
+        
+        # Test security - attempt to modify a staff account
+        staff_user = next((user for user in users if user.get('is_staff', False)), None)
+        if staff_user:
+            staff_id = staff_user['id']
+            success5, response5 = self.run_test(
+                "Admin - Attempt to Modify Staff Account",
+                "PUT",
+                f"admin/users/{staff_id}",
+                403,  # Should be forbidden
+                data={"is_resident": not staff_user.get('is_resident', True)}
+            )
+            
+            if success5:
+                print("✅ Security check passed - Cannot modify staff accounts")
+            else:
+                print("❌ Security check failed - Was able to modify staff account")
+                verification_passed = False
+        
+        return success1 and success2 and success3 and verification_passed
 
 def main():
     # Setup
