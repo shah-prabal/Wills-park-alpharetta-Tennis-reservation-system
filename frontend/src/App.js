@@ -800,19 +800,24 @@ function App() {
                     <label className="block text-lg font-semibold text-gray-700 mb-3">
                       Court Selection
                     </label>
-                    <select
-                      value={bookingData.courtId}
-                      onChange={(e) => setBookingData({...bookingData, courtId: e.target.value})}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg"
-                      required
-                    >
-                      <option value="">Select a court</option>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       {courts.filter(court => court.available).map(court => (
-                        <option key={court.id} value={court.id}>
-                          {court.name}
-                        </option>
+                        <button
+                          key={court.id}
+                          type="button"
+                          onClick={() => setBookingData({...bookingData, courtId: court.id})}
+                          className={`p-4 border-2 rounded-xl text-center transition-all duration-200 ${
+                            bookingData.courtId === court.id
+                              ? 'border-blue-500 bg-blue-50 text-blue-700'
+                              : 'border-gray-300 hover:border-blue-300 hover:bg-blue-50'
+                          }`}
+                        >
+                          <div className="text-2xl mb-2">🎾</div>
+                          <div className="font-semibold">{court.name}</div>
+                          <div className="text-sm text-gray-600">Available</div>
+                        </button>
                       ))}
-                    </select>
+                    </div>
                   </div>
 
                   <div>
