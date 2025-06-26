@@ -269,7 +269,7 @@ function App() {
                 </button>
               </form>
 
-              <div className="mt-8 text-center space-y-4">
+              <div className="mt-8 text-center">
                 <p className="text-gray-600">
                   Don't have an account?{' '}
                   <a 
@@ -281,28 +281,6 @@ function App() {
                     Sign up here
                   </a>
                 </p>
-                <div className="w-full h-px bg-gray-200"></div>
-                <p className="text-gray-600">
-                  Staff member?{' '}
-                  <button
-                    onClick={() => setCurrentPage('staff-login')}
-                    className="text-blue-600 hover:text-blue-800 font-semibold transition-colors"
-                  >
-                    Log in here
-                  </button>
-                </p>
-              </div>
-
-              <div className="mt-8 p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200">
-                <h3 className="font-bold text-gray-800 mb-4 text-center">Demo Account:</h3>
-                <div className="bg-white rounded-lg p-4 border border-gray-300">
-                  <p className="text-gray-600 mb-2">
-                    <strong>Member Demo:</strong> membermock / trial123
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    For staff access, please contact your system administrator.
-                  </p>
-                </div>
               </div>
             </div>
           </div>
