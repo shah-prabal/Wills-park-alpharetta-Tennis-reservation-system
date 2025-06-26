@@ -1030,41 +1030,53 @@ function App() {
     );
   };
 
-  // Admin Dashboard Component
+  // Admin Dashboard Component - COMPLETELY REWRITTEN
   const AdminDashboard = () => {
+    const [activeTab, setActiveTab] = useState('overview');
     const [allReservations, setAllReservations] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
     const [analytics, setAnalytics] = useState({});
-    const [activeTab, setActiveTab] = useState('overview');
 
     useEffect(() => {
       fetchAdminData();
     }, []);
 
     const fetchAdminData = async () => {
+      setLoading(true);
       try {
+        const headers = { 'Authorization': `Bearer ${token}` };
+        
         const [reservationsRes, usersRes, analyticsRes] = await Promise.all([
-          fetch(`${BACKEND_URL}/api/admin/reservations`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-          }),
-          fetch(`${BACKEND_URL}/api/admin/users`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-          }),
-          fetch(`${BACKEND_URL}/api/admin/analytics`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-          })
+          fetch(`${BACKEND_URL}/api/admin/reservations`, { headers }),
+          fetch(`${BACKEND_URL}/api/admin/users`, { headers }),
+          fetch(`${BACKEND_URL}/api/admin/analytics`, { headers })
         ]);
 
-        const reservationsData = await reservationsRes.json();
-        const usersData = await usersRes.json();
-        const analyticsData = await analyticsRes.json();
-
-        setAllReservations(reservationsData.reservations || []);
-        setAllUsers(usersData.users || []);
-        setAnalytics(analyticsData);
+        if (reservationsRes.ok) {
+          const reservationsData = await reservationsRes.json();
+          setAllReservations(reservationsData.reservations || []);
+        }
+        
+        if (usersRes.ok) {
+          const usersData = await usersRes.json();
+          setAllUsers(usersData.users || []);
+        }
+        
+        if (analyticsRes.ok) {
+          const analyticsData = await analyticsRes.json();
+          setAnalytics(analyticsData);
+        }
       } catch (err) {
         console.error('Failed to fetch admin data:', err);
+        setError('Failed to load admin data');
+      } finally {
+        setLoading(false);
       }
+    };
+
+    const handleAdminTabChange = (tabName) => {
+      console.log('Admin changing tab to:', tabName);
+      setActiveTab(tabName);
     };
 
     return (
