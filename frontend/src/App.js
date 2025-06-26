@@ -808,8 +808,8 @@ function App() {
                       Court Selection
                     </label>
                     <select
-                      value={bookingForm.courtId}
-                      onChange={(e) => setBookingForm({...bookingForm, courtId: e.target.value})}
+                      value={bookingData.courtId}
+                      onChange={(e) => setBookingData({...bookingData, courtId: e.target.value})}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg"
                       required
                     >
