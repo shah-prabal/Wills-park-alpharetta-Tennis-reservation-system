@@ -691,7 +691,7 @@ function App() {
             </div>
           )}
 
-          {activeTab === 'availability' && (
+          {currentTab === 'availability' && (
             <div className="card fade-in-up">
               <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Court Availability</h2>
               
