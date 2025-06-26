@@ -447,7 +447,7 @@ function App() {
           </div>
 
           {activeTab === 'home' && (
-            <div className="space-y-8 fade-in-up">
+            <div className="space-y-8">
               {/* Hero Section with Professional Background */}
               <div className="hero-section text-white rounded-2xl p-12 shadow-professional-lg">
                 <div className="max-w-4xl">
@@ -516,28 +516,28 @@ function App() {
               }}>
                 <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">World-Class Court Features</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                  <div className="text-center slide-in-left">
+                  <div className="text-center">
                     <div className="feature-icon feature-icon-blue mx-auto mb-6">
                       <span className="text-3xl">🏆</span>
                     </div>
                     <h3 className="font-bold text-gray-900 mb-3 text-lg">Professional Courts</h3>
                     <p className="text-gray-700 leading-relaxed">Championship-quality surfaces designed for optimal performance and player safety</p>
                   </div>
-                  <div className="text-center slide-in-left">
+                  <div className="text-center">
                     <div className="feature-icon feature-icon-yellow mx-auto mb-6">
                       <span className="text-3xl">💡</span>
                     </div>
                     <h3 className="font-bold text-gray-900 mb-3 text-lg">LED Lighting</h3>
                     <p className="text-gray-700 leading-relaxed">State-of-the-art LED lighting system for perfect visibility during evening play</p>
                   </div>
-                  <div className="text-center slide-in-left">
+                  <div className="text-center">
                     <div className="feature-icon feature-icon-green mx-auto mb-6">
                       <span className="text-3xl">🏐</span>
                     </div>
                     <h3 className="font-bold text-gray-900 mb-3 text-lg">Pickleball Ready</h3>
                     <p className="text-gray-700 leading-relaxed">Multi-sport courts with professional pickleball lines for versatile play options</p>
                   </div>
-                  <div className="text-center slide-in-left">
+                  <div className="text-center">
                     <div className="feature-icon feature-icon-red mx-auto mb-6">
                       <span className="text-3xl">🅿️</span>
                     </div>
