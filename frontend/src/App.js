@@ -468,7 +468,7 @@ function App() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => switchTab('availability')}
+                      onClick={() => goToTab('availability')}
                       className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-blue-600 transition-all duration-300"
                     >
                       Check Availability
