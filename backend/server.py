@@ -350,7 +350,8 @@ async def get_all_users(user: dict = Depends(get_current_user)):
     if not user["is_staff"]:
         raise HTTPException(status_code=403, detail="Staff access required")
     
-    users = list(db.users.find({}, {"_id": 0, "password": 0}))
+    # Get only regular users (exclude staff accounts)
+    users = list(db.users.find({"is_staff": {"$ne": True}}, {"_id": 0, "password": 0}))
     return {"users": users}
 
 @app.post("/api/admin/courts/{court_id}/maintenance")
