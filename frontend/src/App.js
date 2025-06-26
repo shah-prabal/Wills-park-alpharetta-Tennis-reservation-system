@@ -394,7 +394,7 @@ function App() {
                   e.preventDefault();
                   e.stopPropagation();
                   console.log('Availability button clicked');
-                  switchTab('availability');
+                  goToTab('availability');
                 }}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   currentTab === 'availability'
