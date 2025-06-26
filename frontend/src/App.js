@@ -354,6 +354,7 @@ function App() {
               <div className="flex items-center space-x-4">
                 <span className="text-gray-600">Welcome, {user?.username}</span>
                 <button
+                  type="button"
                   onClick={handleLogout}
                   className="text-red-600 hover:text-red-800"
                 >
@@ -369,7 +370,12 @@ function App() {
             <nav className="flex space-x-8 border-b">
               <button
                 type="button"
-                onClick={() => switchTab('home')}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log('Home button clicked');
+                  switchTab('home');
+                }}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   currentTab === 'home'
                     ? 'border-blue-500 text-blue-600'
@@ -380,7 +386,12 @@ function App() {
               </button>
               <button
                 type="button"
-                onClick={() => switchTab('book')}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log('Book button clicked');
+                  switchTab('book');
+                }}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   currentTab === 'book'
                     ? 'border-blue-500 text-blue-600'
@@ -391,7 +402,12 @@ function App() {
               </button>
               <button
                 type="button"
-                onClick={() => switchTab('availability')}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log('Availability button clicked');
+                  switchTab('availability');
+                }}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   currentTab === 'availability'
                     ? 'border-blue-500 text-blue-600'
@@ -402,7 +418,12 @@ function App() {
               </button>
               <button
                 type="button"
-                onClick={() => switchTab('reservations')}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log('Reservations button clicked');
+                  switchTab('reservations');
+                }}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   currentTab === 'reservations'
                     ? 'border-blue-500 text-blue-600'
@@ -413,7 +434,12 @@ function App() {
               </button>
               <button
                 type="button"
-                onClick={() => switchTab('contact')}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log('Contact button clicked');
+                  switchTab('contact');
+                }}
                 className={`pb-4 border-b-2 font-medium transition-all duration-200 ${
                   currentTab === 'contact'
                     ? 'border-blue-500 text-blue-600'
