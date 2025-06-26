@@ -47,24 +47,8 @@ function App() {
     }
   }, [token]);
 
-  const fetchUserProfile = async () => {
-    try {
-      const response = await fetch(`${BACKEND_URL}/api/courts`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      if (response.ok) {
-        setCurrentPage(user?.is_staff ? 'admin' : 'dashboard');
-      } else {
-        localStorage.removeItem('token');
-        setToken(null);
-      }
-    } catch (err) {
-      console.error('Auth check failed:', err);
-    }
-  };
-
+  // Remove the problematic fetchUserProfile function
+  
   const handleLogin = async (username, password) => {
     setLoading(true);
     setError('');
@@ -72,9 +56,7 @@ function App() {
     try {
       const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
 
