@@ -828,8 +828,8 @@ function App() {
                     </label>
                     <input
                       type="date"
-                      value={bookingForm.date}
-                      onChange={(e) => setBookingForm({...bookingForm, date: e.target.value})}
+                      value={bookingData.date}
+                      onChange={(e) => setBookingData({...bookingData, date: e.target.value})}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg"
                       required
                     />
