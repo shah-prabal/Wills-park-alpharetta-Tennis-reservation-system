@@ -380,6 +380,20 @@ function App() {
                 Wills Park Tennis Courts
               </h1>
               <div className="flex items-center space-x-4">
+                {/* Notifications */}
+                {notifications.length > 0 && (
+                  <div className="relative">
+                    <button
+                      type="button"
+                      className="relative p-2 text-gray-600 hover:text-gray-800"
+                    >
+                      <span className="text-xl">🔔</span>
+                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        {notifications.length}
+                      </span>
+                    </button>
+                  </div>
+                )}
                 <span className="text-gray-600">Welcome, {user?.username}</span>
                 <button
                   type="button"
@@ -390,6 +404,32 @@ function App() {
                 </button>
               </div>
             </div>
+            
+            {/* Notification Messages */}
+            {notifications.length > 0 && (
+              <div className="mt-4 space-y-2">
+                {notifications.map(notification => (
+                  <div key={notification.id} className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-blue-800 font-medium">📢 System Notification</p>
+                        <p className="text-blue-700">{notification.message}</p>
+                        <p className="text-blue-600 text-sm mt-1">
+                          {new Date(notification.created_at).toLocaleString()}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => markNotificationRead(notification.id)}
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                      >
+                        Dismiss
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </header>
 
