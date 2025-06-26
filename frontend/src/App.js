@@ -311,29 +311,34 @@ function App() {
     );
   };
 
-  // User Dashboard Component
+  // User Dashboard Component - COMPLETELY REWRITTEN
   const UserDashboard = () => {
     const [activeTab, setActiveTab] = useState('home');
     const [bookingForm, setBookingForm] = useState({
       courtId: '',
-      date: selectedDate,
+      date: new Date().toISOString().split('T')[0],
       startTime: '',
       endTime: '',
       attendees: 1
     });
 
+    // Load data only when needed
     useEffect(() => {
-      if (activeTab === 'home' || activeTab === 'book' || activeTab === 'reservations') {
+      if (activeTab === 'book' || activeTab === 'home') {
         fetchCourts();
+      }
+      if (activeTab === 'reservations') {
         fetchMyReservations();
+      }
+      if (activeTab === 'availability') {
+        fetchCourtAvailability(bookingForm.date);
       }
     }, [activeTab]);
 
-    useEffect(() => {
-      if (activeTab === 'availability' && bookingForm.date) {
-        fetchCourtAvailability(bookingForm.date);
-      }
-    }, [activeTab, bookingForm.date]);
+    const handleTabChange = (tabName) => {
+      console.log('Changing tab to:', tabName);
+      setActiveTab(tabName);
+    };
 
     const handleBooking = (e) => {
       e.preventDefault();
