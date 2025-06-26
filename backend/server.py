@@ -375,7 +375,7 @@ async def get_analytics(user: dict = Depends(get_current_user)):
     if not user["is_staff"]:
         raise HTTPException(status_code=403, detail="Staff access required")
     
-    # Basic analytics
+    # Basic analytics - EXCLUDE STAFF ACCOUNTS
     total_reservations = db.reservations.count_documents({})
     confirmed_reservations = db.reservations.count_documents({"status": "confirmed"})
     total_revenue = list(db.reservations.aggregate([
@@ -383,13 +383,16 @@ async def get_analytics(user: dict = Depends(get_current_user)):
         {"$group": {"_id": None, "total": {"$sum": "$total_cost"}}}
     ]))
     
+    # Count only regular users (exclude staff accounts)
+    total_users = db.users.count_documents({"is_staff": {"$ne": True}})
+    
     revenue = total_revenue[0]["total"] if total_revenue else 0
     
     return {
         "total_reservations": total_reservations,
         "confirmed_reservations": confirmed_reservations,
         "total_revenue": revenue,
-        "total_users": db.users.count_documents({})
+        "total_users": total_users
     }
 
 if __name__ == "__main__":
