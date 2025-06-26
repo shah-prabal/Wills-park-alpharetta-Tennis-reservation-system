@@ -450,9 +450,17 @@ function App() {
 
           {activeTab === 'home' && (
             <div className="space-y-8">
-              {/* Hero Section with Professional Background */}
-              <div className="hero-section text-white rounded-2xl p-12 shadow-professional-lg">
-                <div className="max-w-4xl">
+              {/* Hero Section with YOUR tennis courts image */}
+              <div 
+                className="text-white rounded-2xl p-12 shadow-lg relative overflow-hidden"
+                style={{
+                  backgroundImage: `linear-gradient(rgba(30, 64, 175, 0.8), rgba(5, 150, 105, 0.8)), url('https://i.imgur.com/SEHbnIB.jpeg')`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  minHeight: '400px'
+                }}
+              >
+                <div className="relative z-10 max-w-4xl">
                   <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
                     Welcome to Wills Park Tennis Courts
                   </h1>
@@ -462,15 +470,15 @@ function App() {
                   <div className="flex flex-wrap gap-4">
                     <button
                       type="button"
-                      onClick={() => setActiveTab('book')}
-                      className="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 btn-hover-effect"
+                      onClick={() => handleTabChange('book')}
+                      className="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all duration-300 shadow-lg"
                     >
                       Book a Court Now
                     </button>
                     <button
                       type="button"
-                      onClick={() => setActiveTab('availability')}
-                      className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                      onClick={() => handleTabChange('availability')}
+                      className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-blue-600 transition-all duration-300"
                     >
                       Check Availability
                     </button>
@@ -478,18 +486,18 @@ function App() {
                 </div>
               </div>
 
-              {/* Quick Stats with Professional Design */}
+              {/* Quick Stats */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="card card-hover text-center">
-                  <div className="feature-icon feature-icon-blue mx-auto mb-4">
+                <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-3xl">🎾</span>
                   </div>
                   <div className="text-4xl font-bold text-blue-600 mb-3">4</div>
                   <div className="text-gray-800 font-semibold text-lg mb-2">Available Courts</div>
                   <div className="text-gray-600">Courts 1-4 ready for professional play</div>
                 </div>
-                <div className="card card-hover text-center">
-                  <div className="feature-icon feature-icon-green mx-auto mb-4">
+                <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-3xl">💰</span>
                   </div>
                   <div className="text-4xl font-bold text-green-600 mb-3">
@@ -500,8 +508,8 @@ function App() {
                     {user?.is_resident ? 'Resident pricing' : 'Non-resident pricing'}
                   </div>
                 </div>
-                <div className="card card-hover text-center">
-                  <div className="feature-icon feature-icon-yellow mx-auto mb-4">
+                <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+                  <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-3xl">⏰</span>
                   </div>
                   <div className="text-4xl font-bold text-purple-600 mb-3">7AM-10PM</div>
@@ -510,37 +518,26 @@ function App() {
                 </div>
               </div>
 
-              {/* Court Features with Background Image */}
-              <div className="card" style={{
-                backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('https://images.unsplash.com/photo-1710782914858-9324a4c09c4a?auto=format&fit=crop&w=1200&q=80')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
-              }}>
-                <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">World-Class Court Features</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {/* Court Features - REMOVED PICKLEBALL */}
+              <div className="bg-white rounded-xl shadow-lg p-8">
+                <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Professional Court Features</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   <div className="text-center">
-                    <div className="feature-icon feature-icon-blue mx-auto mb-6">
+                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                       <span className="text-3xl">🏆</span>
                     </div>
                     <h3 className="font-bold text-gray-900 mb-3 text-lg">Professional Courts</h3>
                     <p className="text-gray-700 leading-relaxed">Championship-quality surfaces designed for optimal performance and player safety</p>
                   </div>
                   <div className="text-center">
-                    <div className="feature-icon feature-icon-yellow mx-auto mb-6">
+                    <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
                       <span className="text-3xl">💡</span>
                     </div>
                     <h3 className="font-bold text-gray-900 mb-3 text-lg">LED Lighting</h3>
                     <p className="text-gray-700 leading-relaxed">State-of-the-art LED lighting system for perfect visibility during evening play</p>
                   </div>
                   <div className="text-center">
-                    <div className="feature-icon feature-icon-green mx-auto mb-6">
-                      <span className="text-3xl">🏐</span>
-                    </div>
-                    <h3 className="font-bold text-gray-900 mb-3 text-lg">Pickleball Ready</h3>
-                    <p className="text-gray-700 leading-relaxed">Multi-sport courts with professional pickleball lines for versatile play options</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="feature-icon feature-icon-red mx-auto mb-6">
+                    <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
                       <span className="text-3xl">🅿️</span>
                     </div>
                     <h3 className="font-bold text-gray-900 mb-3 text-lg">Free Parking</h3>
@@ -549,16 +546,16 @@ function App() {
                 </div>
               </div>
 
-              {/* Quick Actions with Better Design */}
-              <div className="card">
+              {/* Quick Actions */}
+              <div className="bg-white rounded-xl shadow-lg p-8">
                 <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Quick Actions</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <button
                     type="button"
-                    onClick={() => setActiveTab('reservations')}
-                    className="contact-card flex items-center p-6 border-2 border-gray-200 rounded-2xl hover:border-blue-300 hover:bg-blue-50 transition-all duration-300"
+                    onClick={() => handleTabChange('reservations')}
+                    className="flex items-center p-6 border-2 border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all duration-300"
                   >
-                    <div className="feature-icon feature-icon-blue mr-6">
+                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-6">
                       <span className="text-2xl">📅</span>
                     </div>
                     <div className="text-left">
@@ -568,10 +565,10 @@ function App() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setActiveTab('contact')}
-                    className="contact-card flex items-center p-6 border-2 border-gray-200 rounded-2xl hover:border-green-300 hover:bg-green-50 transition-all duration-300"
+                    onClick={() => handleTabChange('contact')}
+                    className="flex items-center p-6 border-2 border-gray-200 rounded-xl hover:border-green-300 hover:bg-green-50 transition-all duration-300"
                   >
-                    <div className="feature-icon feature-icon-green mr-6">
+                    <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-6">
                       <span className="text-2xl">📞</span>
                     </div>
                     <div className="text-left">
@@ -582,11 +579,11 @@ function App() {
                 </div>
               </div>
 
-              {/* Aerial View Section */}
-              <div className="rounded-2xl overflow-hidden shadow-professional-lg">
+              {/* YOUR Tennis Courts Photo */}
+              <div className="rounded-2xl overflow-hidden shadow-lg">
                 <img 
-                  src="https://images.pexels.com/photos/8783173/pexels-photo-8783173.jpeg?auto=compress&cs=tinysrgb&w=1200" 
-                  alt="Wills Park Tennis Courts Aerial View"
+                  src="https://i.imgur.com/SEHbnIB.jpeg" 
+                  alt="Wills Park Tennis Courts"
                   className="w-full h-64 md:h-80 object-cover"
                 />
                 <div className="bg-white p-8">
@@ -598,8 +595,8 @@ function App() {
                 </div>
               </div>
 
-              {/* Rules & Policies with Better Design */}
-              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-200 rounded-2xl p-8 shadow-professional">
+              {/* Rules & Policies */}
+              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-200 rounded-2xl p-8">
                 <h2 className="text-3xl font-bold text-yellow-900 mb-8 text-center">Important Booking Information</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="bg-white rounded-xl p-6 shadow-md">
