@@ -932,7 +932,7 @@ function App() {
             </div>
           )}
 
-          {activeTab === 'availability' && (
+          {currentTab === 'availability' && (
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-xl font-bold mb-6">Court Availability</h2>
               
