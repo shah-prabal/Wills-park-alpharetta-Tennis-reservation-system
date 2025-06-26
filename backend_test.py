@@ -229,7 +229,8 @@ class TennisCourtAPITester:
         current_resident_status = test_user.get('is_resident', False)
         new_resident_status = not current_resident_status
         
-        success1, response1 = self.run_test(
+        print(f"Changing resident status from {current_resident_status} to {new_resident_status}")
+        success1, _ = self.run_test(
             "Admin - Update User Resident Status",
             "PUT",
             f"admin/users/{user_id}",
@@ -241,7 +242,8 @@ class TennisCourtAPITester:
         current_alta_status = test_user.get('is_alta_member', False)
         new_alta_status = not current_alta_status
         
-        success2, response2 = self.run_test(
+        print(f"Changing ALTA status from {current_alta_status} to {new_alta_status}")
+        success2, _ = self.run_test(
             "Admin - Update User ALTA Status",
             "PUT",
             f"admin/users/{user_id}",
@@ -253,7 +255,8 @@ class TennisCourtAPITester:
         current_usta_status = test_user.get('is_usta_member', False)
         new_usta_status = not current_usta_status
         
-        success3, response3 = self.run_test(
+        print(f"Changing USTA status from {current_usta_status} to {new_usta_status}")
+        success3, _ = self.run_test(
             "Admin - Update User USTA Status",
             "PUT",
             f"admin/users/{user_id}",
@@ -306,9 +309,11 @@ class TennisCourtAPITester:
         
         # Test security - attempt to modify a staff account
         staff_user = next((user for user in users if user.get('is_staff', False)), None)
+        security_check_passed = False
+        
         if staff_user:
             staff_id = staff_user['id']
-            success5, response5 = self.run_test(
+            success5, _ = self.run_test(
                 "Admin - Attempt to Modify Staff Account",
                 "PUT",
                 f"admin/users/{staff_id}",
@@ -318,11 +323,14 @@ class TennisCourtAPITester:
             
             if success5:
                 print("✅ Security check passed - Cannot modify staff accounts")
+                security_check_passed = True
             else:
                 print("❌ Security check failed - Was able to modify staff account")
-                verification_passed = False
+        else:
+            print("⚠️ No staff user found to test security check")
+            security_check_passed = True  # Skip this check if no staff user
         
-        return success1 and success2 and success3 and verification_passed
+        return success1 and success2 and success3 and verification_passed and security_check_passed
 
 def main():
     # Setup
