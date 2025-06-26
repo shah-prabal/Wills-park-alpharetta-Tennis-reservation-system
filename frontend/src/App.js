@@ -556,7 +556,7 @@ function App() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => switchTab('contact')}
+                    onClick={() => goToTab('contact')}
                     className="flex items-center p-6 border-2 border-gray-200 rounded-xl hover:border-green-300 hover:bg-green-50 transition-all duration-300"
                   >
                     <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-6">
