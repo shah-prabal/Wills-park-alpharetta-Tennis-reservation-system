@@ -341,22 +341,22 @@ function App() {
 
     const handleBooking = (e) => {
       e.preventDefault();
-      const startDateTime = `${bookingForm.date}T${bookingForm.startTime}:00`;
-      const endDateTime = `${bookingForm.date}T${bookingForm.endTime}:00`;
+      const startDateTime = `${bookingData.date}T${bookingData.startTime}:00`;
+      const endDateTime = `${bookingData.date}T${bookingData.endTime}:00`;
       
       createReservation(
-        parseInt(bookingForm.courtId),
+        parseInt(bookingData.courtId),
         startDateTime,
         endDateTime,
-        bookingForm.attendees
+        bookingData.attendees
       );
     };
 
     const calculatePrice = () => {
-      if (!bookingForm.startTime || !bookingForm.endTime) return 0;
+      if (!bookingData.startTime || !bookingData.endTime) return 0;
       
-      const start = new Date(`${bookingForm.date}T${bookingForm.startTime}`);
-      const end = new Date(`${bookingForm.date}T${bookingForm.endTime}`);
+      const start = new Date(`${bookingData.date}T${bookingData.startTime}`);
+      const end = new Date(`${bookingData.date}T${bookingData.endTime}`);
       const hours = (end - start) / (1000 * 60 * 60);
       
       const isResident = user?.is_resident || user?.is_alta_member || user?.is_usta_member;
