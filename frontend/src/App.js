@@ -552,11 +552,8 @@ function App() {
                 <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Quick Actions</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setActiveTab('reservations');
-                    }}
+                    type="button"
+                    onClick={() => setActiveTab('reservations')}
                     className="contact-card flex items-center p-6 border-2 border-gray-200 rounded-2xl hover:border-blue-300 hover:bg-blue-50 transition-all duration-300"
                   >
                     <div className="feature-icon feature-icon-blue mr-6">
@@ -568,11 +565,8 @@ function App() {
                     </div>
                   </button>
                   <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setActiveTab('contact');
-                    }}
+                    type="button"
+                    onClick={() => setActiveTab('contact')}
                     className="contact-card flex items-center p-6 border-2 border-gray-200 rounded-2xl hover:border-green-300 hover:bg-green-50 transition-all duration-300"
                   >
                     <div className="feature-icon feature-icon-green mr-6">
