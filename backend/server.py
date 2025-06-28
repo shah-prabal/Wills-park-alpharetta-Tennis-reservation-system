@@ -286,7 +286,7 @@ async def create_reservation(request: ReservationRequest, user: dict = Depends(g
             "end_time": request.end_time,
             "attendees": request.attendees,
             "total_cost": total_cost,
-            "status": "pending",
+            "status": "confirmed",  # Auto-confirm for demo purposes
             "payment_intent_id": payment_intent.id,
             "created_at": datetime.utcnow().isoformat()
         }
