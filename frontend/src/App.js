@@ -916,12 +916,6 @@ function App() {
                       <div className="text-sm text-gray-600">Available Time Slots</div>
                     </div>
                   </div>
-                  
-                  {/* Additional debug info */}
-                  <div className="mt-4 p-3 bg-white rounded text-xs text-gray-600">
-                    <p>Courts data: {courts.length} total, {courts.filter(c => c.available).length} available</p>
-                    <p>Reservations data: {reservations.length} for {bookingData.date}</p>
-                  </div>
                 </div>
 
                 {/* Quick Actions */}
