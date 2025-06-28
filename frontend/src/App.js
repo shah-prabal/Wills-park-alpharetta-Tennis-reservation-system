@@ -945,8 +945,9 @@ function App() {
                       const tomorrow = new Date();
                       tomorrow.setDate(tomorrow.getDate() + 1);
                       const tomorrowStr = tomorrow.toISOString().split('T')[0];
-                      setBookingData({...bookingData, date: tomorrowStr});
+                      setBookingData(prev => ({...prev, date: tomorrowStr}));
                       fetchCourtAvailability(tomorrowStr);
+                    }}
                     }}
                     className="bg-gray-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-gray-700 transition-all duration-300 shadow-lg"
                   >
