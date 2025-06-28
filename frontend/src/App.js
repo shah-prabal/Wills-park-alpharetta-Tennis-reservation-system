@@ -780,13 +780,6 @@ function App() {
                       day: 'numeric' 
                     })}
                   </p>
-                  
-                  {/* Debug info */}
-                  <div className="mt-4 p-3 bg-gray-100 rounded text-sm">
-                    <p>Debug: Courts available: {courts.filter(court => court.available).length}</p>
-                    <p>Debug: Total reservations: {reservations.length}</p>
-                    <p>Debug: Current date: {bookingData.date}</p>
-                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
