@@ -3,7 +3,7 @@ import sys
 import json
 
 class AdminUserEditingTester:
-    def __init__(self, base_url="https://851b1ca6-6412-4cb6-b95e-4d1d4e435eb7.preview.emergentagent.com"):
+    def __init__(self, base_url="https://73a3fa10-5de2-43bc-8389-29e76dba38ce.preview.emergentagent.com"):
         self.base_url = base_url
         self.token = None
         self.user = None
