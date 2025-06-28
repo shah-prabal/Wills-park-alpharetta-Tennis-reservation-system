@@ -423,11 +423,6 @@ function App() {
         </header>
 
         <div className="container mx-auto px-4 py-8">
-          {/* Debug info - remove later */}
-          <div className="mb-4 p-2 bg-yellow-100 rounded text-sm">
-            Current Tab: {currentTab}
-          </div>
-          
           <div className="mb-8">
             <nav className="flex space-x-8 border-b">
               <button
