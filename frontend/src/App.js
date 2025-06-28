@@ -329,6 +329,13 @@ function App() {
     // SIMPLE tab switching function
     const goToTab = (tabName) => {
       setCurrentTab(tabName);
+      if (tabName === 'availability') {
+        fetchCourts();
+        fetchCourtAvailability(bookingData.date);
+      }
+      if (tabName === 'book') {
+        fetchCourts();
+      }
     };
 
     const handleBooking = (e) => {
