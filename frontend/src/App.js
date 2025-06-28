@@ -195,27 +195,13 @@ function App() {
       const data = await response.json();
       
       if (response.ok) {
-        // Process payment with Stripe
-        if (window.stripe && data.client_secret) {
-          const { error } = await window.stripe.confirmCardPayment(data.client_secret, {
-            payment_method: {
-              card: {
-                // In a real app, you'd use Stripe Elements for card input
-                // For demo purposes, using test card
-                number: '4242424242424242',
-                exp_month: 12,
-                exp_year: 2025,
-                cvc: '123',
-              }
-            }
-          });
-
-          if (error) {
-            setError(`Payment failed: ${error.message}`);
-          } else {
-            setSuccess(`Reservation created! Total cost: $${data.total_cost}`);
-            fetchMyReservations();
-          }
+        // For demo purposes, simulate successful payment
+        // In production, you would use Stripe Elements for proper payment processing
+        if (data.client_secret) {
+          setSuccess(`Reservation created successfully! Total cost: $${data.total_cost}`);
+          fetchMyReservations();
+        } else {
+          setError('Payment processing failed - no client secret received');
         }
       } else {
         setError(data.detail || 'Reservation failed');
