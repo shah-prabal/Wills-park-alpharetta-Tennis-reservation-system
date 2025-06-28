@@ -331,14 +331,22 @@ function App() {
 
     // SIMPLE tab switching function
     const goToTab = (tabName) => {
+      console.log('Switching to tab:', tabName);
       setCurrentTab(tabName);
-      if (tabName === 'availability') {
-        fetchCourts();
-        fetchCourtAvailability(bookingData.date);
-      }
-      if (tabName === 'book') {
-        fetchCourts();
-      }
+      
+      // Load data when switching to specific tabs
+      setTimeout(() => {
+        if (tabName === 'availability') {
+          fetchCourts();
+          fetchCourtAvailability(bookingData.date);
+        }
+        if (tabName === 'book') {
+          fetchCourts();
+        }
+        if (tabName === 'reservations') {
+          fetchMyReservations();
+        }
+      }, 100);
     };
 
     const handleBooking = (e) => {
