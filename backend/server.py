@@ -261,21 +261,8 @@ async def create_reservation(request: ReservationRequest, user: dict = Depends(g
         hours
     )
     
-    # Create Stripe payment intent
+    # For demo purposes, create reservation without actual Stripe payment
     try:
-        payment_intent = stripe.PaymentIntent.create(
-            amount=int(total_cost * 100),  # Convert to cents
-            currency='usd',
-            automatic_payment_methods={'enabled': True},
-            metadata={
-                'user_id': user["id"],
-                'court_id': str(request.court_id),
-                'start_time': request.start_time,
-                'end_time': request.end_time,
-                'attendees': str(request.attendees)
-            }
-        )
-        
         # Create reservation
         reservation_id = str(uuid.uuid4())
         reservation = {
@@ -287,7 +274,7 @@ async def create_reservation(request: ReservationRequest, user: dict = Depends(g
             "attendees": request.attendees,
             "total_cost": total_cost,
             "status": "confirmed",  # Auto-confirm for demo purposes
-            "payment_intent_id": payment_intent.id,
+            "payment_intent_id": f"demo_payment_{reservation_id[:8]}",
             "created_at": datetime.utcnow().isoformat()
         }
         
@@ -295,12 +282,12 @@ async def create_reservation(request: ReservationRequest, user: dict = Depends(g
         
         return {
             "reservation_id": reservation_id,
-            "client_secret": payment_intent.client_secret,
+            "client_secret": f"demo_secret_{reservation_id[:8]}",
             "total_cost": total_cost
         }
         
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Payment processing error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Reservation creation error: {str(e)}")
 
 @app.get("/api/reservations/my")
 async def get_my_reservations(user: dict = Depends(get_current_user)):
