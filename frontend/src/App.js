@@ -65,7 +65,7 @@ function App() {
     document.head.appendChild(script);
   }, []);
 
-  // Check authentication on load
+  // Check authentication on load and fetch courts
   useEffect(() => {
     if (token) {
       // Simple check without causing re-renders
@@ -74,7 +74,10 @@ function App() {
           const response = await fetch(`${BACKEND_URL}/api/courts`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
-          if (!response.ok) {
+          if (response.ok) {
+            const data = await response.json();
+            setCourts(data.courts);
+          } else {
             localStorage.removeItem('token');
             setToken(null);
             setCurrentPage('login');
