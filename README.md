@@ -43,7 +43,9 @@ A comprehensive tennis court reservation system for the City of Alpharetta's Wil
 - MongoDB
 - Yarn package manager
 
-## 🚀 Quick Start for Mac Users
+## 🚀 Local Development Setup
+
+### Quick Start for Mac Users
 
 ### **Recommended Setup for MacBook:**
 
