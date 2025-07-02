@@ -268,9 +268,46 @@ WDS_SOCKET_PORT=443
 
 ### Common Issues
 
-#### Backend Not Starting
+#### Mac-Specific Issues
+
+**MongoDB Not Starting**
 ```bash
-# Check logs
+# Check MongoDB status
+brew services list | grep mongodb
+
+# Start MongoDB if not running
+brew services start mongodb/brew/mongodb-community
+
+# Check MongoDB logs
+tail -f /usr/local/var/log/mongodb/mongo.log
+```
+
+**Port Already in Use (Mac)**
+```bash
+# Find what's using port 3000 or 8001
+lsof -ti:3000
+lsof -ti:8001
+
+# Kill process using the port
+kill -9 $(lsof -ti:3000)
+kill -9 $(lsof -ti:8001)
+```
+
+**Permission Issues (Mac)**
+```bash
+# Fix npm/yarn permissions
+sudo chown -R $(whoami) ~/.npm
+sudo chown -R $(whoami) ~/.yarn
+```
+
+#### General Issues
+
+**Backend Not Starting**
+```bash
+# Check logs (Mac - if running manually)
+cat backend.log
+
+# Check logs (Linux - supervisor)
 tail -f /var/log/supervisor/backend.err.log
 
 # Common fixes:
@@ -279,9 +316,12 @@ tail -f /var/log/supervisor/backend.err.log
 # 3. Check port 8001 is available
 ```
 
-#### Frontend Not Loading
+**Frontend Not Loading**
 ```bash
-# Check logs
+# Check logs (Mac - if running manually)
+cat frontend.log
+
+# Check logs (Linux - supervisor)  
 tail -f /var/log/supervisor/frontend.err.log
 
 # Common fixes:
@@ -295,6 +335,16 @@ tail -f /var/log/supervisor/frontend.err.log
 - Check that frontend is making requests to correct backend URL
 
 #### Database Connection Issues
+
+**Mac MongoDB Check**
+```bash
+# Check MongoDB connection
+mongo --eval "db.adminCommand('ismaster')"
+# Or with newer MongoDB:
+mongosh --eval "db.adminCommand('ismaster')"
+```
+
+**Linux MongoDB Check**
 ```bash
 # Check MongoDB status
 sudo supervisorctl status mongodb
