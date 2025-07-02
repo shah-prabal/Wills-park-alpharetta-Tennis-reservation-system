@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import json
 
 class TennisCourtAPITester:
-    def __init__(self, base_url="https://73a3fa10-5de2-43bc-8389-29e76dba38ce.preview.emergentagent.com"):
+    def __init__(self, base_url="https://0a4cbe66-8c1d-4e7b-a224-b22a2f6d4411.preview.emergentagent.com"):
         self.base_url = base_url
         self.token = None
         self.user = None
