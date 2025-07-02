@@ -84,7 +84,7 @@ cd ../frontend && yarn install
 brew services start mongodb/brew/mongodb-community
 
 # Terminal 2: Backend API
-cd /app/backend && python server.py
+cd /app/backend && python3 server.py
 
 # Terminal 3: Frontend App
 cd /app/frontend && yarn start
