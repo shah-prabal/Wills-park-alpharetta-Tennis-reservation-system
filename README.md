@@ -113,8 +113,13 @@ cd /app
 # Navigate to backend directory
 cd backend
 
-# Install Python dependencies
-pip install -r requirements.txt
+# Install Python dependencies (Mac users)
+# Try these in order until one works:
+pip3 install -r requirements.txt
+# OR:
+python3 -m pip install -r requirements.txt
+# OR if using Homebrew Python:
+/usr/local/bin/python3 -m pip install -r requirements.txt
 
 # Verify environment variables
 cat .env
