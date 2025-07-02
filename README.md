@@ -91,6 +91,10 @@ cd /app/frontend && yarn start
 - User: `membermock` / `trial123`
 - Admin: `AlpharettaStaff1122` / `JVtt3MfdJLGv6Qv0MUC3`
 
+---
+
+### Detailed Setup (All Platforms)
+
 ### 1. Clone and Navigate
 ```bash
 git clone [repository-url]
