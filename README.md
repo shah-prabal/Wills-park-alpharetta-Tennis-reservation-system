@@ -30,6 +30,14 @@ A comprehensive tennis court reservation system for the City of Alpharetta's Wil
 
 ## 📋 Prerequisites
 
+### For Mac Users
+- **Homebrew**: Install from https://brew.sh
+- **Python 3.11+**: `brew install python@3.11`
+- **Node.js 18+**: `brew install node`
+- **MongoDB**: `brew tap mongodb/brew && brew install mongodb-community`
+- **Yarn**: `brew install yarn`
+
+### For Linux Users
 - Python 3.11+
 - Node.js 18+
 - MongoDB
