@@ -64,8 +64,15 @@ brew tap mongodb/brew && brew install mongodb-community
 # Navigate to project
 cd /app
 
-# Install backend dependencies
-cd backend && pip install -r requirements.txt
+# Install backend dependencies (Mac users - use pip3 or python3 -m pip)
+cd backend
+
+# Try one of these commands (in order of preference):
+pip3 install -r requirements.txt
+# OR if pip3 doesn't work:
+python3 -m pip install -r requirements.txt
+# OR if you have brew python:
+/usr/local/bin/python3 -m pip install -r requirements.txt
 
 # Install frontend dependencies  
 cd ../frontend && yarn install
