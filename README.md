@@ -375,6 +375,13 @@ python3 -m ensurepip --upgrade
 echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.zshrc
 source ~/.zshrc
 ```
+
+**Permission Issues (Mac)**
+```bash
+# Fix npm/yarn permissions
+sudo chown -R $(whoami) ~/.npm
+sudo chown -R $(whoami) ~/.yarn
+```
 ```bash
 # Fix npm/yarn permissions
 sudo chown -R $(whoami) ~/.npm
