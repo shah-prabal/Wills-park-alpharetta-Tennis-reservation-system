@@ -23,14 +23,14 @@ stripe.api_key = STRIPE_SECRET_KEY
 # Create FastAPI app
 app = FastAPI()
 
-# NOTE: CORS middleware disabled temporarily to debug
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],
-#     allow_credentials=True,
-#     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-#     allow_headers=["*"]
-# )
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["*"]
+)
 
 # MongoDB connection
 client = MongoClient(MONGO_URL)
