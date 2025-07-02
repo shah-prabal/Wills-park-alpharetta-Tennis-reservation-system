@@ -43,7 +43,51 @@ A comprehensive tennis court reservation system for the City of Alpharetta's Wil
 - MongoDB
 - Yarn package manager
 
-## 🚀 Local Development Setup
+## 🚀 Quick Start for Mac Users
+
+### **Recommended Setup for MacBook:**
+
+1. **Install Dependencies**
+```bash
+# Install Homebrew (if not already installed)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install required packages
+brew install python@3.11 node yarn
+brew tap mongodb/brew && brew install mongodb-community
+```
+
+2. **Setup Project**
+```bash
+# Navigate to project
+cd /app
+
+# Install backend dependencies
+cd backend && pip install -r requirements.txt
+
+# Install frontend dependencies  
+cd ../frontend && yarn install
+```
+
+3. **Start Services (3 Terminal Windows)**
+```bash
+# Terminal 1: MongoDB
+brew services start mongodb/brew/mongodb-community
+
+# Terminal 2: Backend API
+cd /app/backend && python server.py
+
+# Terminal 3: Frontend App
+cd /app/frontend && yarn start
+```
+
+4. **Access Application**
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8001
+
+### **Test Accounts:**
+- User: `membermock` / `trial123`
+- Admin: `AlpharettaStaff1122` / `JVtt3MfdJLGv6Qv0MUC3`
 
 ### 1. Clone and Navigate
 ```bash
