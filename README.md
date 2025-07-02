@@ -84,7 +84,7 @@ cat .env
 
 ### 4. Start Services
 
-#### Option A: Using Supervisor (Recommended)
+#### Option A: Using Supervisor (Linux/Cloud Environment)
 ```bash
 # Start all services
 sudo supervisorctl start all
@@ -98,18 +98,35 @@ sudo supervisorctl status
 # mongodb                          RUNNING   pid [number]
 ```
 
-#### Option B: Manual Start (Development)
+#### Option B: Manual Start (Mac/Development - Recommended for Mac)
 ```bash
-# Terminal 1: Start MongoDB (if not using supervisor)
-mongod
+# Terminal 1: Start MongoDB
+brew services start mongodb/brew/mongodb-community
+# Or manually: mongod --config /usr/local/etc/mongod.conf
 
 # Terminal 2: Start Backend
 cd /app/backend
 python server.py
+# Should show: "Uvicorn running on http://0.0.0.0:8001"
 
-# Terminal 3: Start Frontend
+# Terminal 3: Start Frontend  
 cd /app/frontend
 yarn start
+# Should show: "You can now view frontend in the browser at http://localhost:3000"
+```
+
+#### Option C: Using Background Processes (Mac Alternative)
+```bash
+# Start MongoDB as background service
+brew services start mongodb/brew/mongodb-community
+
+# Start backend in background
+cd /app/backend
+nohup python server.py > backend.log 2>&1 &
+
+# Start frontend in background
+cd /app/frontend
+nohup yarn start > frontend.log 2>&1 &
 ```
 
 ### 5. Access the Application
