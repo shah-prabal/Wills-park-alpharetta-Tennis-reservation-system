@@ -137,7 +137,27 @@ nohup yarn start > frontend.log 2>&1 &
 
 ## 🔧 Service Management
 
-### Supervisor Commands
+### Mac Users (Homebrew Services)
+```bash
+# MongoDB service management
+brew services start mongodb/brew/mongodb-community
+brew services stop mongodb/brew/mongodb-community
+brew services restart mongodb/brew/mongodb-community
+
+# Check if MongoDB is running
+brew services list | grep mongodb
+
+# Backend and Frontend (manual process management)
+# Kill processes if needed:
+pkill -f "python server.py"
+pkill -f "yarn start"
+
+# Check running processes
+ps aux | grep "python server.py"
+ps aux | grep "yarn start"
+```
+
+### Linux Users (Supervisor Commands)
 ```bash
 # Restart all services
 sudo supervisorctl restart all
