@@ -355,7 +355,26 @@ kill -9 $(lsof -ti:3000)
 kill -9 $(lsof -ti:8001)
 ```
 
-**Permission Issues (Mac)**
+**Python/Pip Not Found (Mac)**
+```bash
+# Check what Python versions you have
+which python3
+python3 --version
+
+# Check for pip3
+which pip3
+
+# If pip3 not found, install it:
+python3 -m ensurepip --upgrade
+
+# Alternative: Check if you have brew python
+/usr/local/bin/python3 --version
+/usr/local/bin/pip3 --version
+
+# Add to your ~/.zshrc if needed:
+echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
 ```bash
 # Fix npm/yarn permissions
 sudo chown -R $(whoami) ~/.npm
