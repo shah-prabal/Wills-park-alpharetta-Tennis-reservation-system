@@ -20,15 +20,16 @@ JWT_SECRET = "alpharetta_tennis_secret_key_2025"
 # Initialize Stripe
 stripe.api_key = STRIPE_SECRET_KEY
 
+# Create FastAPI app
 app = FastAPI()
 
-# CORS middleware
+# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["*"],
+    allow_headers=["*"]
 )
 
 # MongoDB connection
@@ -127,7 +128,11 @@ def init_db():
         courts_collection.insert_one(court)
 
 # Initialize database on startup
-init_db()
+try:
+    init_db()
+    print("Database initialized successfully")
+except Exception as e:
+    print("Database initialization error:", str(e))
 
 # Helper functions
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
@@ -158,6 +163,10 @@ def get_hours_between(start_time: str, end_time: str) -> float:
     return duration.total_seconds() / 3600
 
 # API Routes
+
+@app.get("/")
+async def root():
+    return {"message": "Alpharetta Tennis Court Booking API", "status": "running"}
 
 @app.post("/api/auth/login")
 async def login(request: LoginRequest):
